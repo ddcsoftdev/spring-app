@@ -12,7 +12,4 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @GetMapping("/")
-    public void test(){
-    }
 }
