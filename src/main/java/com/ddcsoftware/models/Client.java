@@ -3,7 +3,7 @@ package com.ddcsoftware.models;
 import java.util.Objects;
 
 public class Client {
-    private Integer id;
+    public Integer id;
     private String name;
     private String email;
     private Integer age;
