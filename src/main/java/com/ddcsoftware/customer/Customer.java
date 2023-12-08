@@ -1,21 +1,28 @@
-package com.ddcsoftware.models;
+package com.ddcsoftware.customer;
 
 import java.util.Objects;
 
-public class Client {
-    public Integer id;
+
+/*
+ *Controller classes are in charge of API
+ *Business (Service) takes care of validating and handing logic between Controller and DataAccess
+ *DataAccess implement a Dao and comunicate with DB
+ */
+
+public class Customer {
+    private Integer id;
     private String name;
     private String email;
     private Integer age;
 
-    public Client() {
+    public Customer() {
         this.id = 0;
         this.name = "N/A";
         this.email = "N/A";
         this.age = 0;
     }
 
-    public Client(Integer id, String name, String email, Integer age) {
+    public Customer(Integer id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -58,11 +65,11 @@ public class Client {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return Objects.equals(id, client.id) &&
-                Objects.equals(name, client.name) &&
-                Objects.equals(email, client.email) &&
-                Objects.equals(age, client.age);
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id) &&
+                Objects.equals(name, customer.name) &&
+                Objects.equals(email, customer.email) &&
+                Objects.equals(age, customer.age);
     }
 
     @Override
