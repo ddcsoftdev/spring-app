@@ -5,10 +5,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+//IMPORTANT: This class is used just for testing
+
 //DataAccess Service classes handle the DB.
-// Need to annotate as Repository(aka Component) to set as Bean
-@Repository
-public class CustomerDataAccessService implements CustomerDao {
+//Need to annotate as Repository(aka Component) to set as Bean
+@Repository("list")
+public class CustomerListDataAccessService implements CustomerDao {
 
     //Temp fake database
     public static List<Customer> customers;
