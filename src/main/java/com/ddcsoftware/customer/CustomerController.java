@@ -43,8 +43,8 @@ public class CustomerController {
     }
 
     @PutMapping("api/v1/customers/{customerId}")
-    public void updateCustomer(@PathVariable("customerId") Integer customerId,
+    public void updateCustomerById(@PathVariable("customerId") Integer customerId,
                                @RequestBody CustomerUpdateRequest updateRequest) {
-        customerService.updateCustomer(customerId, updateRequest);
+        customerService.updateCustomerById(customerId, updateRequest);
     }
 }

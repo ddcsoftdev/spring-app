@@ -52,7 +52,7 @@ public class CustomerService {
         customerDao.deleteCustomer(customerId);
     }
 
-    public void updateCustomer(Integer customerId, CustomerUpdateRequest updateRequest) {
+    public void updateCustomerById(Integer customerId, CustomerUpdateRequest updateRequest) {
 
         Customer customer = getCustomerById(customerId);
         boolean changes = false;
