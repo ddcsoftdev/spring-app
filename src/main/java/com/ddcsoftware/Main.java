@@ -2,12 +2,12 @@ package com.ddcsoftware;
 
 import com.ddcsoftware.customer.Customer;
 import com.ddcsoftware.customer.CustomerRepository;
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-
 import java.util.List;
 
 @SpringBootApplication
@@ -26,10 +26,12 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository){
 
         return args -> {
-            Customer diego = new Customer("Diego", "diego@gmail.com", 25);
-            Customer alisha = new Customer("Alisha", "alisha@gmail.com", 29);
-            List<Customer> list = List.of(diego, alisha);
-            customerRepository.saveAll(list);
+            Faker faker = new Faker();
+            Customer customerOne = new Customer(
+                    faker.name().firstName(),
+                    faker.name().lastName() + "@example.com",
+                    faker.random().nextInt(18, 99));
+            customerRepository.save(customerOne);
         };
     }
 }
