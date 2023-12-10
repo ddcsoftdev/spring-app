@@ -1,8 +1,7 @@
-package com.ddcsoftware.customer;
+package old;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 
@@ -12,27 +11,18 @@ import java.util.Objects;
  *DataAccess implement a Dao and comunicate with DB
  */
 
-//THIS SET UP FOR JDBC
-@Entity
-//This allows to setup the table however we want
-//With @Entity JPA handles everything automatically if @Table not specified
-@Table(
-        name = "customer",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "customer_email_unique", columnNames = "email")
-        }
-)
-public class Customer {
+//THIS SETUP IS FOR JPA
+//@Entity
+public class CustomerJPA {
 
     @Id
     @SequenceGenerator(
-            name = "customer_id_seq",
-            sequenceName = "customer_id_seq",
-            allocationSize = 1
+            name = "customer_id_sequence",
+            sequenceName = "customer_id_sequence"
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "customer_id_seq"
+            generator = "customer_id_sequence"
     )
     private Integer id;
     @Column(nullable = false)
@@ -42,21 +32,21 @@ public class Customer {
     @Column(nullable = false)
     private Integer age;
 
-    public Customer() {
+    public CustomerJPA() {
         this.id = 0;
         this.name = "N/A";
         this.email = "N/A";
         this.age = 0;
     }
 
-    public Customer(Integer id, String name, String email, Integer age) {
+    public CustomerJPA(Integer id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
     }
 
-    public Customer(String name, String email, Integer age) {
+    public CustomerJPA(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -98,7 +88,7 @@ public class Customer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
+        CustomerJPA customer = (CustomerJPA) o;
         return Objects.equals(id, customer.id) &&
                 Objects.equals(name, customer.name) &&
                 Objects.equals(email, customer.email) &&

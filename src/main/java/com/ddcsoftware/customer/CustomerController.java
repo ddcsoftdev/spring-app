@@ -3,7 +3,6 @@ package com.ddcsoftware.customer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 //Request mapping sets the default mapping to this url @RequestMapping("api/v1/customers")

@@ -1,6 +1,6 @@
 package com.ddcsoftware;
 
-import com.ddcsoftware.customer.Customer;
+import old.CustomerJPA;
 import com.ddcsoftware.customer.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,9 +24,9 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository){
 
         return args -> {
-            Customer diego = new Customer("Diego", "diego@gmail.com", 25);
-            Customer alisha = new Customer("Alisha", "alisha@gmail.com", 29);
-            List<Customer> list = List.of(diego, alisha);
+            CustomerJPA diego = new CustomerJPA("Diego", "diego@gmail.com", 25);
+            CustomerJPA alisha = new CustomerJPA("Alisha", "alisha@gmail.com", 29);
+            List<CustomerJPA> list = List.of(diego, alisha);
             customerRepository.saveAll(list);
         };
     }
