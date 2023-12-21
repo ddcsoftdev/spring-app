@@ -1,5 +1,6 @@
 package com.ddcsoftware;
 
+import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -75,4 +76,7 @@ public abstract class AbstractTestcontainers {
     protected static JdbcTemplate getJdbcTemplate(){
         return new JdbcTemplate(getDataSource());
     }
+
+    //Used for testing
+    protected static final Faker FAKER = new Faker();
 }
