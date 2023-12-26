@@ -13,6 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 //This class testes CustomerJDBCDataAccessService
 //Since AbstractTestcontainers has no @SpringBootTest we need to set up dependencies manually
 //As we are not using Application Context to make the test faster (We don't need all the Beans)
+
+//We could use @DataJDBCTest to load Beans for JDBC. But by doing it manually we load fewer beans
 class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
 
     private CustomerJDBCDataAccessService underTest;
