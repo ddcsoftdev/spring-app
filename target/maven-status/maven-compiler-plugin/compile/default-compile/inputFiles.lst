@@ -1,0 +1,16 @@
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/exception/ResourceNotFoundException.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerRegistrationRequests.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerJPADataAccessService.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerRowMapper.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerService.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/old/CustomerJPA.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerRepository.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/exception/DuplicateResourceException.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/Main.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/Customer.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerDao.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerUpdateRequest.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerListDataAccessService.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerController.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/customer/CustomerJDBCDataAccessService.java
+/Users/diegodemarco/Documents/Portfolio/spring-app/src/main/java/com/ddcsoftware/exception/RequestValidationException.java
