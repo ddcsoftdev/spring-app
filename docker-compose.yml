@@ -14,7 +14,7 @@ services:
       - postgres
     restart: unless-stopped
 
-  #this is for self-containing app
+  #this is for self-containing app in local testing
   ddcsoftware-api:
     container_name: ddcsoftware-api
     image: ddcsoftware/ddcsoftware-api
