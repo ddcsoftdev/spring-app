@@ -13,28 +13,46 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
+
+  #this is for local testing
+  ddcsoftware-api:
+    container_name: ddcsoftware-api
+    image: ddcsoftware/ddcsoftware-api
+    #this overrides the URL so we connect to the db
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ddc
     ports:
-      - "5050:80"
+      - "8080:8080"
     networks:
       - postgres
-    restart: unless-stopped
     depends_on:
       - db
+    restart: unless-stopped
+
+  #pgadmin: unnecessary for webapp now, but keeping for reference
+
+#  pgadmin:
+#    container_name: pgadmin
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+#      PGADMIN_CONFIG_SERVER_MODE: 'False'
+#    volumes:
+#      - pgadmin:/var/lib/pgadmin
+#    ports:
+#      - "5050:80"
+#    networks:
+#      - postgres
+#    restart: unless-stopped
+#    depends_on:
+#      - db
 
 networks:
   postgres:
     driver: bridge
 
+#could remove pgadmin from here. check pgadmin for info
 volumes:
   postgres:
-  pgadmin:
-
+#  pgadmin:
