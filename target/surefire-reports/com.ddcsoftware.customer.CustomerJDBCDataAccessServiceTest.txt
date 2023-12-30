@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.ddcsoftware.customer.CustomerJDBCDataAccessServiceTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.303 s -- in com.ddcsoftware.customer.CustomerJDBCDataAccessServiceTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.306 s -- in com.ddcsoftware.customer.CustomerJDBCDataAccessServiceTest

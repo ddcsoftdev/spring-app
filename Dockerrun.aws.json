@@ -1,0 +1,23 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "ddcsoftware-api-test",
+      "image": "ddcsoftware/ddcsoftware-api:latest",
+      "essential": true,
+      "memory": 520,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_DATASOURCE_URL",
+          "value": "jdbc:postgresql://awseb-e-mce2dmdnnp-stack-awsebrdsdatabase-6l49woxqzcv2.cri8088mwvtr.eu-west-3.rds.amazonaws.com:5432/ddc"
+        }
+      ]
+    }
+  ]
+}
