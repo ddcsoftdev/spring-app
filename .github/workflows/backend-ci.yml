@@ -1,0 +1,48 @@
+name: CI - Build Backend
+
+on:
+  pull_request:
+    #Pull main branch
+    branches:
+      - main
+    #Pull if anything changes in the backend folder
+    paths:
+      - backend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #Making sure all run commands are done in ./backend folder
+    defaults:
+      run:
+        working-directory: ./backend
+
+    services:
+      #Setup Database with postgres
+      postgres:
+        image: postgres:16.1
+        env:
+          POSTGRES_USER: ddc
+          POSTGRES_PASSWORD: password1234
+          POSTGRES_DB: ddc
+        ports:
+          - 5332:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+                 
+    steps:
+      #1. Clone main branch of Github repo
+      - uses: actions/checkout@v3
+      #2. Setup Java with Caching (only first time is slow)
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+      #3. Run shell command: 'mvn verify'
+      #This tests and build the whole project
+      - name: Build and run Unit/Integration Tests with Maven
+        run: mvn -ntp -B verify
