@@ -58,7 +58,7 @@ jobs:
         # id lets us get this step from another step
         id: build-number
         #By sending it to GITHUB_OUTPUT env we can access this variable BUILD_NUMBER var latter
-        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%M.%S') >> $GITHUB_OUTPUT
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
       #5. Setting docker image name within pom.xml
       #Name is set in <properties> and it's called from <plugins> <jib plugin> <to>
