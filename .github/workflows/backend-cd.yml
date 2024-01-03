@@ -115,5 +115,6 @@ jobs:
         # > means command will take up more than one line, but is still just one command
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":":wave: Succesfully Deployed and Pushed Dockerrun: v${{ steps.build-number.outputs.BUILD_NUMBER }}"'
+          --data '{"text":"Hello, World!"}'
+       #   --data '{"text":":wave: Succesfully Deployed and Pushed Dockerrun: v${{ steps.build-number.outputs.BUILD_NUMBER }}"'
           ${{secrets.SLACK_URL}}
