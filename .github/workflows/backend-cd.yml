@@ -112,8 +112,10 @@ jobs:
       #9. Sending notification to Slack through webhook
       #Note: there are actions in Marketplace to format better the message. This is the raw way
       - name: Notification to Slack
+        #this always triggers, even if anything fails before this job
+        if: always()
         # > means command will take up more than one line, but is still just one command
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":":wave: Succesfully Deployed and Pushed Dockerrun: v${{ steps.build-number.outputs.BUILD_NUMBER }}"}'
+          --data '{"text":":wave: Status: ${{job.status}} for deploying and pushing Dockerrun: v${{ steps.build-number.outputs.BUILD_NUMBER }}"}'
           ${{secrets.SLACK_URL}}
