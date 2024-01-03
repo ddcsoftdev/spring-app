@@ -1,0 +1,108 @@
+name: CD - Deploy Backend
+
+on:
+  #workflow_dispatch is to be able to trigger workflow manually
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    #Set working directory to backend folder
+    defaults:
+      run:
+        working-directory: ./backend
+
+    services:
+      #setup postgres container
+      #postgres is just a name we are giving it
+      postgres:
+        image: postgres:16.1
+        env:
+          POSTGRES_USER: ddc
+          POSTGRES_PASSWORD: password1234
+          POSTGRES_DB: ddc
+        ports:
+          - 5332:5432
+        options:
+          --health-cmd pg_ready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      #1. Clone Repo
+      - uses: actions/checkout@v3
+
+      #2. Get Java and Maven to VM
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      #3. Login to Docker
+      - uses: docker/login-action@v3
+        #These are located within out Github repo
+        #In Settings/Security/Secrets and Variables/Actions
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      #4. Use shell command to generate build number with date
+      - name: Set build number
+        # id lets us get this step from another step
+        id: build-number
+        #By sending it to GITHUB_OUTPUT env we can access this variable BUILD_NUMBER var latter
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%M.%S') >> $GITHUB_OUTPUT
+
+      #5. Setting docker image name within pom.xml
+      #Name is set in <properties> and it's called from <plugins> <jib plugin> <to>
+      - name: Build Package Push with Maven
+        #Uses docker.image.tag from pom.xml and passes the BUILD_NUMBER var from previous step
+        #Finally we call the command jib:build to push the image to Docker Repo
+        run: mvn -ntp -B verify -D docker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+
+      #6. Update Dockerrun.aws.json api image tag with new build number
+      - name: Update Dockerrun api image
+        #With pipe | we can add more than one line of commands
+        #We print the old Dockerrun to see data (just visual logging)
+        #More info on SED command on Obsidian Notes
+        #We grab the build-number var we created before
+        #We print new Dockerrun to verify it worked (just visual logging)
+        run: |
+          echo "Dockerrun (before):"
+          cat Dockerrun.aws.json
+          sed -i -E 's_(ddcsoftware/ddcsoftware-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
+          echo "Dockerrun (after):"
+          cat Dockerrun.aws.json
+
+      #7. Deploy Dockerrun to AWS Beanstalk using secrets in Github Actions
+      #Reminder: How to setup Secrets in Step 3 and in Obsidian Notes
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{secrets.AWS_USERNAME}}
+          aws_security_key: ${{secrets.AWS_PASSWORD}}
+          environment_name: ${{secrets.EB_ENVIRONMENT_NAME}}
+          application_name: ${{secrets.EB_APPLICATION_NAME}}
+          version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
+          #This is useful to set it to the commit that triggered the build
+          version_description: ${{github.SHA}}
+          region: ${{secrets.EB_REGION}}
+          deployment_package: Dockerrun.aws.json
+
+      #8. Commit and push the Dockerrun into Github
+      - name: Commit and push Dockerrun.aws.json
+        #Using git config lines to attach the user to the commit
+        #Then push all the changes to the git repo
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Update Dockerrun.aws.json with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
+          git push
