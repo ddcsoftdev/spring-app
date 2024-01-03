@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 //NOTE: This class is used only to test that Continues Delivery is working
 @RestController
 public class PingPongController {
+    //Used to return a Pong
     record PingPong(String result){};
 
     //Used so when we send a "ping" (access url with GET) we should receive a Pong
