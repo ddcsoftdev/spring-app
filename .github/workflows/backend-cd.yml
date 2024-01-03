@@ -94,7 +94,9 @@ jobs:
           #This is useful to set it to the commit that triggered the build
           version_description: ${{github.SHA}}
           region: ${{secrets.EB_REGION}}
-          deployment_package: Dockerrun.aws.json
+          #beanstalk-deploy@v21 needs full path from root
+          #Currently does not work with working_directory property
+          deployment_package: backend/Dockerrun.aws.json
 
       #8. Commit and push the Dockerrun into Github
       - name: Commit and push Dockerrun.aws.json
