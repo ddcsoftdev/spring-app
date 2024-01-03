@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "ddcsoftware-api-test",
-      "image": "ddcsoftware/ddcsoftware-api:03.01.2024.18.58.07",
+      "image": "ddcsoftware/ddcsoftware-api:03.01.2024.19.02.28",
       "essential": true,
       "memory": 520,
       "portMappings": [
