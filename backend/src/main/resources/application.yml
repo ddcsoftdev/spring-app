@@ -18,3 +18,11 @@ spring:
     open-in-view: true
   main:
     web-application-type: servlet
+
+#defaulting cors origins and methods to all (*)
+cors:
+  #Used for CORS configuration in com.ddcsoftware.config.WebMvcConfig
+  allowed-origins: "*"
+  #allowed-origins: "https://localhost:5737, https://www.ddcsoftwareapp.com"
+  allowed-methods: "*"
+  #allowed-methods: "GET, POST, PUT, DELETE"
