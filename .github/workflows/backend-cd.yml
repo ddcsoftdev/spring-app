@@ -39,7 +39,7 @@ jobs:
       - name: Slack commit message and sha
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"github: https://github.com/ddcsoftdev/spring-app/commit/${{github.sha}} - ${{github.event.head_commit.message}} "}'
+          --data '{"text":":github: https://github.com/ddcsoftdev/spring-app/commit/${{github.sha}} - ${{github.event.head_commit.message}}"}'
           ${{secrets.SLACK_URL}}
       #1. Clone Repo
       - uses: actions/checkout@v3

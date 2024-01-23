@@ -25,6 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     //This allows to add new https origins and avoid CORS error
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+
         //Within mapping the non base url for the api
         /*
         Within Origins the base urls we want to allow like:
