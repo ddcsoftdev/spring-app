@@ -36,6 +36,7 @@ jobs:
           --health-retries 5
     steps:
       #0. Send Slack commit message and sha
+      - uses: actions/checkout@v3
       - name: Slack commit message and sha
         run: >
           curl -X POST -H 'Content-type: application/json'
