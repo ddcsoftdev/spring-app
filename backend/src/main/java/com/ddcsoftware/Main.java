@@ -22,6 +22,7 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository){
 
         return args -> {
+
             Faker faker = new Faker();
             Customer customerOne = new Customer(
                     faker.name().firstName(),
