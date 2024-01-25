@@ -35,9 +35,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -63,7 +64,7 @@ public class CustomerIntegrationTest {
 
         //make sure customer is present and ignore field ID as we don't know it
         Customer expectedCustomer = new Customer(
-                name, email, age);
+                name, email, age, gender);
         assertThat(allCustomers)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .contains(expectedCustomer);
@@ -96,9 +97,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -154,9 +156,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -192,8 +195,9 @@ public class CustomerIntegrationTest {
         String updateName = faker.name().firstName();
         String updateEmail = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer updateAge = faker.random().nextInt(18, 99);
+        String updateGender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
         CustomerUpdateRequest update = new CustomerUpdateRequest(
-                updateName, updateEmail, updateAge);
+                updateName, updateEmail, updateAge, updateGender);
 
         webTestClient.put()
                 .uri(CUSTOMER_URI + "/{id}", id)
@@ -219,6 +223,7 @@ public class CustomerIntegrationTest {
         assertThat(updatedCustomer.getName()).isEqualTo(update.name());
         assertThat(updatedCustomer.getEmail()).isEqualTo(update.email());
         assertThat(updatedCustomer.getAge()).isEqualTo(update.age());
+        assertThat(updatedCustomer.getGender()).isEqualTo(update.gender());
     }
 
     @Test
@@ -228,9 +233,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -265,7 +271,7 @@ public class CustomerIntegrationTest {
         //update customer
         String updateName = faker.name().firstName();
         CustomerUpdateRequest update = new CustomerUpdateRequest(
-                updateName, email, age);
+                updateName, email, age, gender);
 
         webTestClient.put()
                 .uri(CUSTOMER_URI + "/{id}", id)
@@ -291,6 +297,7 @@ public class CustomerIntegrationTest {
         assertThat(updatedCustomer.getName()).isEqualTo(update.name());
         assertThat(updatedCustomer.getEmail()).isEqualTo(update.email());
         assertThat(updatedCustomer.getAge()).isEqualTo(update.age());
+        assertThat(updatedCustomer.getGender()).isEqualTo(update.gender());
     }
 
     @Test
@@ -300,9 +307,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -337,7 +345,7 @@ public class CustomerIntegrationTest {
         //update customer
         String updateEmail = "%s%s@example.com".formatted(name, UUID.randomUUID());
         CustomerUpdateRequest update = new CustomerUpdateRequest(
-                name, updateEmail, age);
+                name, updateEmail, age, gender);
 
         webTestClient.put()
                 .uri(CUSTOMER_URI + "/{id}", id)
@@ -363,6 +371,7 @@ public class CustomerIntegrationTest {
         assertThat(updatedCustomer.getName()).isEqualTo(update.name());
         assertThat(updatedCustomer.getEmail()).isEqualTo(update.email());
         assertThat(updatedCustomer.getAge()).isEqualTo(update.age());
+        assertThat(updatedCustomer.getGender()).isEqualTo(update.gender());
     }
 
     @Test
@@ -372,9 +381,10 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
+        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age);
+                name, email, age, gender);
 
         //send post request
         webTestClient.post()
@@ -410,7 +420,7 @@ public class CustomerIntegrationTest {
         String updateName = faker.name().firstName();
         String updateEmail = "%s%s@example.com".formatted(name, UUID.randomUUID());
         CustomerUpdateRequest update = new CustomerUpdateRequest(
-                updateName, updateEmail, age);
+                updateName, updateEmail, age, gender);
 
         webTestClient.put()
                 .uri(CUSTOMER_URI + "/{id}", id)
@@ -433,7 +443,7 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         Customer expected = new Customer(
-                id, updateName, updateEmail, age);
+                id, updateName, updateEmail, age, gender);
         assertThat(updatedCustomer).isEqualTo(expected);
     }
 }

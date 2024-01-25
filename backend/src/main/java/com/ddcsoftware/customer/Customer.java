@@ -41,25 +41,30 @@ public class Customer {
     private String email;
     @Column(nullable = false)
     private Integer age;
+    @Column(nullable = false)
+    private String gender;
 
     public Customer() {
         this.id = 0;
         this.name = "N/A";
         this.email = "N/A";
         this.age = 0;
+        this.gender = "male";
     }
 
-    public Customer(Integer id, String name, String email, Integer age) {
+    public Customer(String name, String email, Integer age, String gender) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public Customer(Integer id, String name, String email, Integer age, String gender) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
-    }
-
-    public Customer(String name, String email, Integer age) {
-        this.name = name;
-        this.email = email;
-        this.age = age;
+        this.gender = gender;
     }
 
     public Integer getId() {
@@ -90,9 +95,13 @@ public class Customer {
         return age;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setAge(Integer age) { this.age = age; }
+
+    public String getGender() {
+        return gender;
     }
+
+    public void setGender(String gender) { this.gender = gender; }
 
     @Override
     public boolean equals(Object o) {
@@ -102,12 +111,13 @@ public class Customer {
         return Objects.equals(id, customer.id) &&
                 Objects.equals(name, customer.name) &&
                 Objects.equals(email, customer.email) &&
-                Objects.equals(age, customer.age);
+                Objects.equals(age, customer.age) &&
+                Objects.equals(gender, customer.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, age);
+        return Objects.hash(id, name, email, age, gender);
     }
 
     @Override
@@ -117,6 +127,7 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
+                ", gender=" + gender +
                 '}';
     }
 }

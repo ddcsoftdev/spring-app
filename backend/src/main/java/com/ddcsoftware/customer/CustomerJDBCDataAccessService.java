@@ -20,7 +20,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age
+                SELECT *
                 FROM customer
                 """;
         return jdbcTemplate.query(sql, customerRowMapper);
@@ -63,15 +63,16 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer (name, email, age)
-                VALUES (?, ?, ?)
+                INSERT INTO customer (name, email, age, gender)
+                VALUES (?, ?, ?, ?)
                 """;
 
         //returns number of rows affected
         int rowsAffected = jdbcTemplate.update(sql,
                 customer.getName(),
                 customer.getEmail(),
-                customer.getAge());
+                customer.getAge(),
+                customer.getGender());
         System.out.printf("Insert Customer, rowsAffected = %d\n", rowsAffected);
     }
 
@@ -89,13 +90,14 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     public void updateCustomer(Customer update) {
         var sql = """
                 UPDATE customer
-                SET name = ? , email = ? , age = ?
+                SET name = ? , email = ? , age = ?, gender = ?
                 WHERE id = ?
                 """;
         int rowsAffected = jdbcTemplate.update(sql,
                 update.getName(),
                 update.getEmail(),
                 update.getAge(),
+                update.getGender(),
                 update.getId());
         System.out.printf("Update Customer, rowsAffected = %d\n", rowsAffected);
     }

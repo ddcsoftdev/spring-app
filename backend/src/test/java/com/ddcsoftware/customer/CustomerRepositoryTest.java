@@ -81,13 +81,15 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
                 FAKER.name().fullName(),
                 //Make this always unique to avoid errors
                 FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID(),
-                FAKER.random().nextInt(18, 99));
+                FAKER.random().nextInt(18, 99),
+                FAKER.random().nextInt(0,1) == 1 ? "male" : "female");
     }
 
     private Customer createRandomCustomer(String email){
         return new Customer(
                 FAKER.name().fullName(),
                 email,
-                FAKER.random().nextInt(18, 99));
+                FAKER.random().nextInt(18, 99),
+                FAKER.random().nextInt(0,1) == 1 ? "male" : "female");
     }
 }
