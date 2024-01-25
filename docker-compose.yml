@@ -1,26 +1,30 @@
 services:
+  #sets up the db
   db:
     container_name: postgres
-    image: postgres
+    image: postgres:latest
     environment:
-      POSTGRES_USER: ddc
+      POSTGRES_USER: ddcsoftware
       POSTGRES_PASSWORD: password1234
       PGDATA: /data/postgres
+
     volumes:
       - postgres:/data/postgres
     ports:
       - "5332:5432"
     networks:
-      - postgres:16.1
+      - postgres
     restart: unless-stopped
 
   #this is for self-containing app in local testing
   ddcsoftware-api:
     container_name: ddcsoftware-api
-    image: ddcsoftware/ddcsoftware-api
+    image: ddcsoftware/ddcsoftware-api:latest
     #this overrides the URL so we connect to the db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ddc
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ddcsoftware
+      SPRING_DATASOURCE_USERNAME: ddcsoftware
+      SPRING_DATASOURCE_PASSWORD: password1234
     ports:
       - "8080:8080"
     networks:

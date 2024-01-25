@@ -5,8 +5,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5332/ddc
-    username: ddc
+    url: jdbc:postgresql://localhost:5332/ddcsoftware
+    username: ddcsoftware
     password: password1234
   jpa:
     hibernate:
