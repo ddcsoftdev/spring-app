@@ -1,5 +1,4 @@
 'use client'
-
 import {
     Heading,
     Avatar,
@@ -13,6 +12,8 @@ import {
     Tag,
     useColorModeValue,
 } from '@chakra-ui/react'
+import {deleteCustomers} from "../services/client.js";
+import react from "@vitejs/plugin-react";
 
 export default function CardWithImage({id, name, email, age, gender}) {
     //adapt gender to fit "male" or "female"
@@ -23,6 +24,13 @@ export default function CardWithImage({id, name, email, age, gender}) {
             return "women"
         }
     }
+
+    //delete customer and refresh page
+    const deleteAndRefreshPage = (id) => {
+        deleteCustomers(id)
+        window.location.reload()
+    }
+
     return (
         <Center py={6}>
             <Box
@@ -66,6 +74,8 @@ export default function CardWithImage({id, name, email, age, gender}) {
                         <Text color={'gray'} fontScale={"xs"}>{email}</Text>
                         <Text color={'gray'}>Age {age}</Text>
                         <Text color={'gray'}>{gender.toString().toUpperCase()}</Text>
+                        <Button>Modify</Button>
+                        <Button onClick={ () => deleteAndRefreshPage(id)}>Delete</Button>
                     </Stack>
 
                 </Box>
