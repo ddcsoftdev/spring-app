@@ -55,7 +55,7 @@ class CustomerJPADataAccessServiceTest {
                 "Test",
                 "test@testing.com",
                 14,
-                "female");
+                Gender.FEMALE);
         underTest.insertCustomer(customer);
         Mockito.verify(customerRepository).save(customer);
     }
@@ -73,7 +73,7 @@ class CustomerJPADataAccessServiceTest {
                 "Test",
                 "test@testing.com",
                 14,
-                "female");
+                Gender.FEMALE);
         underTest.updateCustomer(customer);
         Mockito.verify(customerRepository).save(customer);
     }

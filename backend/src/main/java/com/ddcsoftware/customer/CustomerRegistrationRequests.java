@@ -4,5 +4,5 @@ public record CustomerRegistrationRequests(
         String name,
         String email,
         Integer age,
-        String gender) {
+        Gender gender) {
 }

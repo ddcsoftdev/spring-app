@@ -72,7 +72,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getAge(),
-                customer.getGender());
+                customer.getGender().name());
         System.out.printf("Insert Customer, rowsAffected = %d\n", rowsAffected);
     }
 
@@ -97,7 +97,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
                 update.getName(),
                 update.getEmail(),
                 update.getAge(),
-                update.getGender(),
+                update.getGender().name(),
                 update.getId());
         System.out.printf("Update Customer, rowsAffected = %d\n", rowsAffected);
     }

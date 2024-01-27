@@ -2,6 +2,7 @@ package com.ddcsoftware;
 
 import com.ddcsoftware.customer.Customer;
 import com.ddcsoftware.customer.CustomerRepository;
+import com.ddcsoftware.customer.Gender;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +28,7 @@ public class Main {
                     faker.name().firstName(),
                     faker.name().lastName() + "@example.com",
                     faker.random().nextInt(18, 99),
-                    faker.random().nextInt(0,1) == 1 ? "male" : "female");
+                    faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
             customerRepository.save(customerOne);
         };
     }

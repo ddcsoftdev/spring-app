@@ -42,24 +42,25 @@ public class Customer {
     @Column(nullable = false)
     private Integer age;
     @Column(nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     public Customer() {
         this.id = 0;
         this.name = "N/A";
         this.email = "N/A";
         this.age = 0;
-        this.gender = "male";
+        this.gender = Gender.MALE;
     }
 
-    public Customer(String name, String email, Integer age, String gender) {
+    public Customer(String name, String email, Integer age, Gender gender) {
         this.name = name;
         this.email = email;
         this.age = age;
         this.gender = gender;
     }
 
-    public Customer(Integer id, String name, String email, Integer age, String gender) {
+    public Customer(Integer id, String name, String email, Integer age, Gender gender) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -97,11 +98,11 @@ public class Customer {
 
     public void setAge(Integer age) { this.age = age; }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) { this.gender = gender; }
+    public void setGender(Gender gender) { this.gender = gender; }
 
     @Override
     public boolean equals(Object o) {

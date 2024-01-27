@@ -97,7 +97,7 @@ const NavItem = ({ icon, children, ...rest }) => {
                         mr="4"
                         fontSize="16"
                         _groupHover={{
-                            color: 'white',
+                            color: 'black',
                         }}
                         as={icon}
                     />

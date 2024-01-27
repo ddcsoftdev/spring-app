@@ -19,7 +19,7 @@ class CustomerRowMapperTest {
     void mapRow() throws SQLException {
         CustomerRowMapper customerRowMapper = new CustomerRowMapper();
         Customer customer = new Customer(
-                2, "James", "James@example.com", 31, "male");
+                2, "James", "James@example.com", 31, Gender.MALE);
 
         //forward declare a mock within method
         ResultSet resultSet = mock(ResultSet.class);
@@ -28,7 +28,7 @@ class CustomerRowMapperTest {
         when(resultSet.getString("name")).thenReturn(customer.getName());
         when(resultSet.getString("email")).thenReturn(customer.getEmail());
         when(resultSet.getInt("age")).thenReturn(customer.getAge());
-        when(resultSet.getString("gender")).thenReturn(customer.getGender());
+        when(resultSet.getString("gender")).thenReturn("MALE");
 
         //mock method and get customer. column for mapRow doesn't matter as its mocked
         Customer expected = customerRowMapper.mapRow(resultSet, 1);

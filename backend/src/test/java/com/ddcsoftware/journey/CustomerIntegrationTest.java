@@ -3,6 +3,7 @@ package com.ddcsoftware.journey;
 import com.ddcsoftware.customer.Customer;
 import com.ddcsoftware.customer.CustomerRegistrationRequests;
 import com.ddcsoftware.customer.CustomerUpdateRequest;
+import com.ddcsoftware.customer.Gender;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);
@@ -97,7 +98,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);
@@ -156,7 +157,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);
@@ -195,7 +196,7 @@ public class CustomerIntegrationTest {
         String updateName = faker.name().firstName();
         String updateEmail = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer updateAge = faker.random().nextInt(18, 99);
-        String updateGender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender updateGender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
         CustomerUpdateRequest update = new CustomerUpdateRequest(
                 updateName, updateEmail, updateAge, updateGender);
 
@@ -233,7 +234,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);
@@ -307,7 +308,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);
@@ -381,7 +382,7 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
         Integer age = faker.random().nextInt(18, 99);
-        String gender = faker.random().nextInt(0,1) == 1 ? "male" : "female";
+        Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 name, email, age, gender);

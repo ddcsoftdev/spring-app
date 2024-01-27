@@ -12,23 +12,22 @@ import {
     Tag,
     useColorModeValue,
 } from '@chakra-ui/react'
-import {deleteCustomers} from "../services/client.js";
-import react from "@vitejs/plugin-react";
+import {deleteCustomer} from "../services/client.js";
+
 
 export default function CardWithImage({id, name, email, age, gender}) {
     //adapt gender to fit "male" or "female"
     const converGenderEntry = (gender) =>{
-        if (gender === "male"){
+        if (gender === "MALE"){
             return "men"
-        } else if (gender === "female"){
+        } else if (gender === "FEMALE"){
             return "women"
         }
     }
 
     //delete customer and refresh page
     const deleteAndRefreshPage = (id) => {
-        deleteCustomers(id)
-        window.location.reload()
+        deleteCustomer(id).then(r => window.location.reload())
     }
 
     return (
@@ -73,7 +72,7 @@ export default function CardWithImage({id, name, email, age, gender}) {
                         </Heading>
                         <Text color={'gray'} fontScale={"xs"}>{email}</Text>
                         <Text color={'gray'}>Age {age}</Text>
-                        <Text color={'gray'}>{gender.toString().toUpperCase()}</Text>
+                        <Text color={'gray'}>{gender.toString().toLowerCase()}</Text>
                         <Button>Modify</Button>
                         <Button onClick={ () => deleteAndRefreshPage(id)}>Delete</Button>
                     </Stack>
