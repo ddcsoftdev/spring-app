@@ -27,7 +27,10 @@ export default function CardWithImage({id, name, email, age, gender}) {
 
     //delete customer and refresh page
     const deleteAndRefreshPage = (id) => {
-        deleteCustomer(id).then(r => window.location.reload())
+        deleteCustomer(id)
+            .then(r => console.log("deleting customer with id: " + id))
+            .catch((err) => console.log(err))
+            .finally(window.location.reload())
     }
 
     return (
