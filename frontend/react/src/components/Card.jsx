@@ -13,9 +13,10 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react'
 import {deleteCustomer} from "../services/client.js";
+import {successNotification} from "../services/notification.js";
 
 
-export default function CardWithImage({id, name, email, age, gender}) {
+export default function CardWithImage({fetchCustomers, id, name, email, age, gender}) {
     //adapt gender to fit "male" or "female"
     const converGenderEntry = (gender) =>{
         if (gender === "MALE"){
@@ -28,9 +29,26 @@ export default function CardWithImage({id, name, email, age, gender}) {
     //delete customer and refresh page
     const deleteAndRefreshPage = (id) => {
         deleteCustomer(id)
-            .then(r => console.log("deleting customer with id: " + id))
-            .catch((err) => console.log(err))
-            .finally(window.location.reload())
+            .then(r => {
+                console.log("deleting customer with id: " + id)
+                successNotification(
+                    "Customer deleted",
+                    `Customer with id ${id} has been deleted`
+                )
+                fetchCustomers()
+            })
+            .catch((err) => {
+                console.log(err)
+                successNotification(
+                    err.code,
+                    err.response.data.message
+                )
+            })
+            .finally( () =>
+            {
+
+            }
+               )
     }
 
     return (
@@ -69,15 +87,17 @@ export default function CardWithImage({id, name, email, age, gender}) {
 
                 <Box p={6}>
                     <Stack spacing={2} align={'center'} mb={5}>
-                        <Tag borderRadioyes={"full"}>{id}</Tag>
+                        <Tag borderradioyes={"full"}>{id}</Tag>
                         <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
                             {name}
                         </Heading>
-                        <Text color={'gray'} fontScale={"xs"}>{email}</Text>
+                        <Text color={'gray'} fontscale={"xs"}>{email}</Text>
                         <Text color={'gray'}>Age {age}</Text>
                         <Text color={'gray'}>{gender.toString().toLowerCase()}</Text>
-                        <Button>Modify</Button>
-                        <Button onClick={ () => deleteAndRefreshPage(id)}>Delete</Button>
+                        <Stack display={"inline"} mt={3}>
+                            <Button colorScheme={"blue"} mr={3}>Modify</Button>
+                            <Button colorScheme={"red"} onClick={ () => deleteAndRefreshPage(id)}>Delete</Button>
+                        </Stack>
                     </Stack>
 
                 </Box>

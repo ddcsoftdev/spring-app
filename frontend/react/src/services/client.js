@@ -16,3 +16,13 @@ export const deleteCustomer = async (id) => {
     }
 }
 
+export const addCustomer = async (customer) => {
+    try{
+        return await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`,
+            customer)
+    } catch (e){
+        throw e;
+    }
+}
+
