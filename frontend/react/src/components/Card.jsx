@@ -13,46 +13,73 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react'
 import {deleteCustomer} from "../services/client.js";
-import {successNotification} from "../services/notification.js";
+import {errorNotification, successNotification} from "../services/notification.js";
 
-
+/**
+ * Method that creates a card with all data from a customer
+ *
+ * @param fetchCustomers
+ * @param id
+ * @param name
+ * @param email
+ * @param age
+ * @param gender
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function CardWithImage({fetchCustomers, id, name, email, age, gender}) {
-    //adapt gender to fit "male" or "female"
-    const converGenderEntry = (gender) =>{
-        if (gender === "MALE"){
+
+    /**
+     * Method that converts db gender entry into readable gender tag
+     *
+     * @param gender
+     * @returns {string}
+     */
+    const convertGenderEntry = (gender) => {
+        if (gender === "MALE") {
             return "men"
-        } else if (gender === "FEMALE"){
+        } else if (gender === "FEMALE") {
             return "women"
         }
     }
 
-    //delete customer and refresh page
-    const deleteAndRefreshPage = (id) => {
+    /**
+     * Deletes a customer and fetches from database, refreshing the content displayed
+     *
+     * @param id
+     */
+    const deleteCustomerWithId = (id) => {
+
+        //Method from client.js that deletes the customer
         deleteCustomer(id)
             .then(r => {
-                console.log("deleting customer with id: " + id)
+                //Log message to log
+                console.log("Deleting customer with id: " + id)
+                //Create successNotification with method from notification.js
                 successNotification(
                     "Customer deleted",
                     `Customer with id ${id} has been deleted`
                 )
+                //Method that gets and refreshes customers displayed
+                //This method is passed as a prop from App.jsx
                 fetchCustomers()
             })
             .catch((err) => {
+                //Log error to console
                 console.log(err)
-                successNotification(
+                //Create errorNotification with method from notification.js
+                errorNotification(
                     err.code,
                     err.response.data.message
                 )
             })
-            .finally( () =>
-            {
-
-            }
-               )
+            .finally(() => {
+            })
     }
 
     return (
         <Center py={6}>
+            <!--Box that contains the card-->
             <Box
                 minW={'300px'}
                 maxW={'300px'}
@@ -73,11 +100,12 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                     alt="#"
                 />
 
+                <!--Add image from external api address-->
                 <Flex justify={'center'} mt={-12}>
                     <Avatar
                         size={'xl'}
                         src={
-                            `https://randomuser.me/api/portraits/${converGenderEntry(gender)}/${id}.jpg`
+                            `https://randomuser.me/api/portraits/${convertGenderEntry(gender)}/${id}.jpg`
                         }
                         css={{
                             border: '2px solid white',
@@ -85,6 +113,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                     />
                 </Flex>
 
+                <!--Box that contains the customer information-->
                 <Box p={6}>
                     <Stack spacing={2} align={'center'} mb={5}>
                         <Tag borderradioyes={"full"}>{id}</Tag>
@@ -96,11 +125,11 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                         <Text color={'gray'}>{gender.toString().toLowerCase()}</Text>
                         <Stack display={"inline"} mt={3}>
                             <Button colorScheme={"blue"} mr={3}>Modify</Button>
-                            <Button colorScheme={"red"} onClick={ () => deleteAndRefreshPage(id)}>Delete</Button>
+                            <Button colorScheme={"red"} onClick={() => deleteCustomerWithId(id)}>Delete</Button>
                         </Stack>
                     </Stack>
-
                 </Box>
+
             </Box>
         </Center>
     )

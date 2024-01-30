@@ -1,8 +1,10 @@
 import SidebarWithHeader from "./components/shared/SideBar.jsx";
-import {Wrap,
-        WrapItem,
-        Spinner,
-        Text} from "@chakra-ui/react";
+import {
+    Wrap,
+    WrapItem,
+    Spinner,
+    Text
+} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {getCustomers} from "./services/client.js";
 import CardWithImage from "./components/Card.jsx";
@@ -10,13 +12,18 @@ import DrawerForm from "./components/DrawerForm.jsx"
 import {errorNotification} from "./services/notification.js";
 
 const App = () => {
-    //Create a useState with an empty array
+    //userState returns two values: the current state and a way to set a new one
+    //Create a useState with an empty array to set customers
     const [customers, setCustomers] = useState([])
-    //Create a useState with a false variable for loading
+    //Create a useState with a boolean variable for loading
     const [loading, setLoading] = useState(false)
     //Create a useState to set error in case customer loading not possible
     const [err, setError] = useState("")
 
+    /**
+     * Method that fetches customer from the http address
+     * It's also a way to refresh the content of customers within page
+     */
     const fetchCustomers = () => {
         //Set loading to true as in "start loading"
         setLoading(true)
@@ -30,42 +37,42 @@ const App = () => {
                     err.code,
                     err.response.data.message
                 )
-                console.log(err)})
+                console.log(err)
+            })
             //Set loading to false as in "request finished"
             .finally(() => setLoading(false))
     }
-   //Get info of customers from server with a React Hook
-    useEffect( () =>{
+    //Get info of customers from server with a React Hook
+    useEffect(() => {
         fetchCustomers()
-        }, [])
+    }, [])
 
-    //Create a loading component
-    if (loading){
-       return(
-           <SidebarWithHeader>
-               <Spinner
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='green.500'
-                size='xl'/>
-           </SidebarWithHeader>
-       )
+    //Using a component for loading icon
+    if (loading) {
+        return (
+            <SidebarWithHeader>
+                <Spinner
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='green.500'
+                    size='xl'/>
+            </SidebarWithHeader>
+        )
     }
-    //if error then display error message
-    if (err){
+    //If error then display error message
+    if (err) {
         return (
             <SidebarWithHeader>
                 <DrawerForm
-                    fetchCustomers={fetchCustomers}
-                />
+                    fetchCustomers={fetchCustomers}/>
                 <Text mt={5}>Ops there was an error</Text>
             </SidebarWithHeader>
         )
     }
 
     //If no customers found then notify user
-    if (customers.length <= 0){
+    if (customers.length <= 0) {
         return (
             <SidebarWithHeader>
                 <DrawerForm
@@ -79,18 +86,20 @@ const App = () => {
     //If everything goes well just print customers
     return (
         //Map all customers name
-            <SidebarWithHeader>
-                <DrawerForm
-                    fetchCustomers={fetchCustomers}
-                />
-                <Wrap spacing={"30px"} justify={"center"} align={"center"}>
-                {customers.map((customer, index) =>(
+        <SidebarWithHeader>
+            <!--Pass fetchCustomers to the DrawerForm-->
+            <DrawerForm
+                fetchCustomers={fetchCustomers}
+            />
+            <Wrap spacing={"30px"} justify={"center"} align={"center"}>
+                <!--For each customer then create a card with its info-->
+                {customers.map((customer, index) => (
                     <WrapItem key={index}>
-                    <CardWithImage fetchCustomers={fetchCustomers} {...customer}></CardWithImage>
+                        <CardWithImage fetchCustomers={fetchCustomers} {...customer}></CardWithImage>
                     </WrapItem>
                 ))}
-                </Wrap>
-            </SidebarWithHeader>
+            </Wrap>
+        </SidebarWithHeader>
     )
 }
 export default App

@@ -14,6 +14,15 @@ import {
 } from "@chakra-ui/react";
 import {addCustomer} from "../services/client.js";
 import {errorNotification, successNotification} from "../services/notification.js";
+
+/**
+ * Create a Box where we can write text and be sent to our form
+ *
+ * @param label
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
     // which we can spread on <input>. We can use field meta to show an error
@@ -33,6 +42,14 @@ const MyTextInput = ({label, ...props}) => {
     );
 };
 
+/**
+ * Create a Box where we can add options that can be selected and sent to form
+ *
+ * @param label
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MySelect = ({label, ...props}) => {
     const [field, meta] = useField(props);
     return (
@@ -49,10 +66,22 @@ const MySelect = ({label, ...props}) => {
     );
 };
 
-// And now we can use these
+/**
+ * Create the form itself to create a new customer
+ *
+ * @param fetchCustomers
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const CreateCustomerForm = ({fetchCustomers}) => {
     return (
+        <!--This is used to wrap code without the need of a div-->
         <>
+            <!--This sections creates the form-->
+
+            <!--Add the attributes and initial values for our form-->
+            <!--Then add a validation Schema for each attribute-->
+            <!--Finally add functionality when we submit-->
             <Formik
                 initialValues={{
                     name: '',
@@ -79,28 +108,42 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                         .required('Required'),
                 })}
                 onSubmit={(customer, {setSubmitting}) => {
+                    //Set submitting value to true
                     setSubmitting(true)
+
+                    //Add customer with the "customer" value that has been received from the form
+                    //Using method created in client.js
                     addCustomer(customer)
-                        .then(r =>{
+                        .then(r => {
+                            //Log axios response to console
                             console.log(r)
+                            //Create a successNotification with method from notification.js
                             successNotification(
                                 "Customer Added",
-                                `${customer.name} was successfully added.`
-                                )
-                            fetchCustomers()
-                        }).catch(err => {
+                                `${customer.name} was successfully added.`)
+                            //Method that gets and refreshes customers displayed
+                            //This method is passed as a prop from App.jsx
+                            fetchCustomers()})
+                        .catch(err => {
+                            //Log error to console
                             console.log(err)
-                        errorNotification(
-                            err.code,
-                            err.response.data.message
-                        )
-                        }).finally(()=> {
+                            //Create errorNotification with method from notification.js
+                            errorNotification(
+                                //This gets the error code
+                                err.code,
+                                //This gets the actual message from the error
+                                err.response.data.message)})
+                        .finally(() => {
+                            //Finish promise by setting submit = false
                             setSubmitting(false)
-                            })
-                }}
-            >
+                    })
+                }}>
+
+                <!--This section is going to create an instance of the form-->
+                <!--It gets booleans to verify form state-->
                 {({isValid, isSubmitting}) => (
                     <Form>
+                        <!--Add each field with type and default elements-->
                         <Stack spacing={15}>
                             <MyTextInput
                                 label="Name"
@@ -129,12 +172,11 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 <option value="FEMALE">Female</option>
                             </MySelect>
 
+                            <!--Button only works if form IsValid and is NOT submitting-->
                             <Button isDisabled={!isValid || isSubmitting} type="submit"
                                     colorScheme={"green"}>Submit</Button>
                         </Stack>
-                    </Form>
-                )
-                }
+                    </Form>)}
             </Formik>
         </>
     );
