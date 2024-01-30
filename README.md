@@ -19,3 +19,11 @@ It relies on Github Actions to run all the tests and deployment automatically wh
 
 # Deployment
 It uses AWS Free tier for deployment, using and Elastic Beanstalk cointainer to sping up the needed enviroment (application container + postgres container)
+
+# Media
+
+<img width="1671" alt="Screenshot 2024-01-30 at 13 29 17" src="https://github.com/ddcsoftdev/spring-app/assets/148901730/60ddd261-c4fb-4614-ade9-3ce722ec9f65">
+
+<img width="1457" alt="Screenshot 2024-01-30 at 13 30 33" src="https://github.com/ddcsoftdev/spring-app/assets/148901730/79afc95e-3fe8-45f1-aba0-78a6ba3157d1">
+
+
