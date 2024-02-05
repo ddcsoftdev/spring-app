@@ -36,26 +36,25 @@ const CloseIcon = () => "x"
 const DrawerForm = ({fetchCustomers}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     return <>
-        <!--Creates a button with the onOpen event that opens the Drawer-->
+        {/*Creates a button with the onOpen event that opens the Drawer*/}
         <Button leftIcon={<AddIcon/>}
                 colorScheme={"telegram"}
                 onClick={onOpen}>
                 Add Customer
         </Button>
-
-        <!--Drawer that contains the form to add a customer-->
+        {/*Drawer that contains the form to add a customer*/}
         <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
             <DrawerOverlay/>
             <DrawerContent>
                 <DrawerCloseButton/>
                 <DrawerHeader>Register a new customer</DrawerHeader>
 
-                <!--Passing fetchCustomers method, so it can update page when creation is complete-->
+                {/*Passing fetchCustomers method, so it can update page when creation is complete*/}
                 <DrawerBody>
                     <CreateCustomerForm fetchCustomers={fetchCustomers}/>
                 </DrawerBody>
 
-                <!--Creating button with onClose event to close Drawer-->
+                {/*Creating button with onClose event to close Drawer*/}
                 <DrawerFooter>
                     <Button
                         leftIcon={<CloseIcon/>}

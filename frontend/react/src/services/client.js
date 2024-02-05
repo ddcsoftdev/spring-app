@@ -43,3 +43,20 @@ export const addCustomer = async (customer) => {
     }
 }
 
+/**
+ * Modify a new customer on HTTP address with a PUT request
+ *
+ * @param customer
+ * @param id customer id
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+export const modifyCustomer = async (customer, id) => {
+    try {
+        return await axios.put(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`,
+            customer)
+    } catch (e) {
+        throw e;
+    }
+}
+

@@ -75,13 +75,13 @@ const MySelect = ({label, ...props}) => {
  */
 const CreateCustomerForm = ({fetchCustomers}) => {
     return (
-        <!--This is used to wrap code without the need of a div-->
+        //This is used to wrap code without the need of a div*
         <>
-            <!--This sections creates the form-->
+            {/*This sections creates the form*/}
 
-            <!--Add the attributes and initial values for our form-->
-            <!--Then add a validation Schema for each attribute-->
-            <!--Finally add functionality when we submit-->
+            {/*Add the attributes and initial values for our form*/}
+            {/*Then add a validation Schema for each attribute*/}
+            {/*Finally add functionality when we submit*/}
             <Formik
                 initialValues={{
                     name: '',
@@ -92,6 +92,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                 validationSchema={Yup.object({
                     name: Yup.string()
                         .max(15, 'Must be 15 characters or less')
+                        .min(1, 'Name must be longer than character')
                         .required('Required'),
                     email: Yup.string()
                         .email('Invalid email address')
@@ -110,7 +111,6 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                 onSubmit={(customer, {setSubmitting}) => {
                     //Set submitting value to true
                     setSubmitting(true)
-
                     //Add customer with the "customer" value that has been received from the form
                     //Using method created in client.js
                     addCustomer(customer)
@@ -139,11 +139,11 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                     })
                 }}>
 
-                <!--This section is going to create an instance of the form-->
-                <!--It gets booleans to verify form state-->
+                {/*This section is going to create an instance of the form*/}
+                {/*It gets booleans to verify form state*/}
                 {({isValid, isSubmitting}) => (
                     <Form>
-                        <!--Add each field with type and default elements-->
+                        {/*Add each field with type and default elements*/}
                         <Stack spacing={15}>
                             <MyTextInput
                                 label="Name"
@@ -172,7 +172,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 <option value="FEMALE">Female</option>
                             </MySelect>
 
-                            <!--Button only works if form IsValid and is NOT submitting-->
+                            {/*Button only works if form IsValid and is NOT submitting*/}
                             <Button isDisabled={!isValid || isSubmitting} type="submit"
                                     colorScheme={"green"}>Submit</Button>
                         </Stack>

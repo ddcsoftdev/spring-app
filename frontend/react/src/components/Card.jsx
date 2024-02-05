@@ -11,9 +11,17 @@ import {
     Button,
     Tag,
     useColorModeValue,
+    useDisclosure,
+    AlertDialog,
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody, AlertDialogFooter,
 } from '@chakra-ui/react'
 import {deleteCustomer} from "../services/client.js";
 import {errorNotification, successNotification} from "../services/notification.js";
+import {useRef} from "react";
+import ButtonForm from "./ButtonForm.jsx";
 
 /**
  * Method that creates a card with all data from a customer
@@ -42,6 +50,12 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
             return "women"
         }
     }
+
+    /**
+     * Alert Dialog functions
+     */
+    const {isOpen, onOpen, onClose} = useDisclosure()
+    const cancelRef = useRef()
 
     /**
      * Deletes a customer and fetches from database, refreshing the content displayed
@@ -79,7 +93,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
 
     return (
         <Center py={6}>
-            <!--Box that contains the card-->
+            {/* Box that contains the card*/}
             <Box
                 minW={'300px'}
                 maxW={'300px'}
@@ -100,7 +114,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                     alt="#"
                 />
 
-                <!--Add image from external api address-->
+                {/*Add image from external api address*/}
                 <Flex justify={'center'} mt={-12}>
                     <Avatar
                         size={'xl'}
@@ -113,7 +127,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                     />
                 </Flex>
 
-                <!--Box that contains the customer information-->
+                {/*Box that contains the customer information*/}
                 <Box p={6}>
                     <Stack spacing={2} align={'center'} mb={5}>
                         <Tag borderradioyes={"full"}>{id}</Tag>
@@ -123,9 +137,90 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                         <Text color={'gray'} fontscale={"xs"}>{email}</Text>
                         <Text color={'gray'}>Age {age}</Text>
                         <Text color={'gray'}>{gender.toString().toLowerCase()}</Text>
-                        <Stack display={"inline"} mt={3}>
-                            <Button colorScheme={"blue"} mr={3}>Modify</Button>
-                            <Button colorScheme={"red"} onClick={() => deleteCustomerWithId(id)}>Delete</Button>
+                        <Stack display={'inline'} mt={3}>
+                            {/*Modify: Clicking this button triggers a Drawer with form*/}
+                            <ButtonForm
+                                buttonName={'Modify'}
+                                formTitle={`Modify Customer ${id}: ${name}`}
+                                customerName = {name}
+                                customerEmail = {email}
+                                customerAge = {age}
+                                customerGender = {gender}
+                                customerId = {id}
+                                colorScheme={"blue"}
+                                fetchCustomers={fetchCustomers}
+                                mr={3}
+                                _hover={{
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 'lg'
+                                }}
+                            ></ButtonForm>
+                            {/*Delete: Clicking this button triggers onOpen AlertDialog event*/}
+                            <Button
+                                colorScheme={"red"}
+                                _hover={{
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 'lg'
+                                }}
+                                onClick={onOpen}>Delete
+                            </Button>
+
+                            {/*Alert Dialog functionality*/}
+                            <AlertDialog
+                                isOpen={isOpen}
+                                leastDestructiveRef={cancelRef}
+                                onClose={onClose}>
+
+                                <AlertDialogOverlay>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                            Delete Customer
+                                        </AlertDialogHeader>
+
+                                        <AlertDialogBody>
+                                            Are you sure you want to delete {name}? You can't undo this action
+                                            afterwards.
+                                        </AlertDialogBody>
+
+                                        <AlertDialogFooter>
+                                            <Button ref={cancelRef} onClick={onClose}>Cancel
+                                            </Button>
+                                            {/*Delete button that sends a delete request through the API*/}
+                                            <Button colorScheme='red'
+                                                    ml={3}
+                                                    onClick={() => {
+                                                        //Delete customer promise
+                                                        deleteCustomer(id)
+                                                            .then((r) => {
+                                                                //Log response to console
+                                                                console.log(r)
+                                                                //Trigger success notification
+                                                                successNotification(
+                                                                    `Customer Removed `,
+                                                                    `Customer ${name} has been deleted.`
+                                                                )
+                                                                //fetch new customers and refresh content
+                                                                fetchCustomers()
+                                                            })
+                                                            .catch((err) => {
+                                                                //Log response to console
+                                                                console.log(err)
+                                                                //Trigger error notification
+                                                                errorNotification(
+                                                                    err.code,
+                                                                    err.response.data.message
+                                                                )
+                                                            })
+                                                            .finally(
+                                                                //Close Alert Dialog
+                                                                onClose
+                                                            )
+                                                    }}>Delete
+                                            </Button>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialogOverlay>
+                            </AlertDialog>
                         </Stack>
                     </Stack>
                 </Box>

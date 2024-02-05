@@ -87,12 +87,12 @@ const App = () => {
     return (
         //Map all customers name
         <SidebarWithHeader>
-            <!--Pass fetchCustomers to the DrawerForm-->
+            {/* Pass fetchCustomers to the DrawerForm*/}
             <DrawerForm
                 fetchCustomers={fetchCustomers}
             />
             <Wrap spacing={"30px"} justify={"center"} align={"center"}>
-                <!--For each customer then create a card with its info-->
+                {/* For each customer then create a card with its info */}
                 {customers.map((customer, index) => (
                     <WrapItem key={index}>
                         <CardWithImage fetchCustomers={fetchCustomers} {...customer}></CardWithImage>
