@@ -8,7 +8,7 @@ import {
 import {useState, useEffect} from "react";
 import {getCustomers} from "./services/client.js";
 import CardWithImage from "./components/Card.jsx";
-import DrawerForm from "./components/DrawerForm.jsx"
+import CreateCustomerDrawerForm from "./components/CreateCustomerDrawerForm.jsx"
 import {errorNotification} from "./services/notification.js";
 
 const App = () => {
@@ -64,7 +64,7 @@ const App = () => {
     if (err) {
         return (
             <SidebarWithHeader>
-                <DrawerForm
+                <CreateCustomerDrawerForm
                     fetchCustomers={fetchCustomers}/>
                 <Text mt={5}>Ops there was an error</Text>
             </SidebarWithHeader>
@@ -75,7 +75,7 @@ const App = () => {
     if (customers.length <= 0) {
         return (
             <SidebarWithHeader>
-                <DrawerForm
+                <CreateCustomerDrawerForm
                     fetchCustomers={fetchCustomers}
                 />
                 <Text mt={5}>No Customer Available</Text>
@@ -87,8 +87,8 @@ const App = () => {
     return (
         //Map all customers name
         <SidebarWithHeader>
-            {/* Pass fetchCustomers to the DrawerForm*/}
-            <DrawerForm
+            {/* Pass fetchCustomers to the CreateCustomerDrawerForm*/}
+            <CreateCustomerDrawerForm
                 fetchCustomers={fetchCustomers}
             />
             <Wrap spacing={"30px"} justify={"center"} align={"center"}>

@@ -33,7 +33,7 @@ const CloseIcon = () => "x"
  * @returns {JSX.Element}
  * @constructor
  */
-const DrawerForm = ({fetchCustomers}) => {
+const CreateCustomerDrawerForm = ({fetchCustomers}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     return <>
         {/*Creates a button with the onOpen event that opens the Drawer*/}
@@ -68,4 +68,4 @@ const DrawerForm = ({fetchCustomers}) => {
     </>
 }
 
-export default DrawerForm
+export default CreateCustomerDrawerForm

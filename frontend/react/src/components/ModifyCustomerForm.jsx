@@ -1,6 +1,6 @@
 import {Form, Formik, useField} from "formik";
 import * as Yup from 'yup';
-import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
+import {Alert, AlertIcon, Avatar, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import {modifyCustomer} from "../services/client.js";
 import {errorNotification, successNotification} from "../services/notification.js";
 
@@ -54,6 +54,19 @@ const FormSelectInput = ({label, ...props}) => {
         </Box>
     );
 };
+/**
+ * Method that converts db gender entry into readable gender tag
+ *
+ * @param gender
+ * @returns {string}
+ */
+const convertGenderEntry = (gender) => {
+    if (gender === "MALE") {
+        return "men"
+    } else if (gender === "FEMALE") {
+        return "women"
+    }
+}
 
 const selectGender = (customerGender) => {
     if (customerGender === 'MALE'){
@@ -78,10 +91,10 @@ const ModifyCustomerForm = (props) => {
     <>
     <Formik
         initialValues={{
-            name: '',
-            email: '',
-            age: '',
-            gender: '',
+            name: props.customerName,
+            email: props.customerEmail,
+            age: props.customerAge,
+            gender: props.customerGender,
         }}
         validationSchema={Yup.object({
                 name: Yup.string()
@@ -98,19 +111,6 @@ const ModifyCustomerForm = (props) => {
         )}
         onSubmit={(customer, {setSubmitting}) => {
             setSubmitting(true)
-            if (customer['name'] === '') {
-                customer['name'] = props.customerName
-            }
-            if (customer['email'] === '') {
-                customer['email'] = props.customerEmail
-            }
-            if (customer['age'] === '') {
-                customer['age'] = props.customerAge
-            }
-            if (customer['gender'] === '') {
-                customer['gender'] = props.customerGender
-            }
-
             modifyCustomer(customer, props.customerId)
                 .then(r => {
                     console.log(r)
@@ -123,35 +123,43 @@ const ModifyCustomerForm = (props) => {
                     setSubmitting(false)
                 })
         }}>
-
-            { ({isValid, isSubmitting}) => {
+            {/*these values are arguments from Formik*/}
+            { ({dirty, isSubmitting}) => {
                 return (
                 <Form>
                     <Stack spacing={15}>
+                        <Avatar
+                            alignSelf={'center'}
+                            size={'xl'}
+                            src={
+                                `https://randomuser.me/api/portraits/${convertGenderEntry(props.customerGender)}/${props.customerId}.jpg`
+                            }
+                            css={{
+                                border: '2px solid white',
+                            }}
+                        />
                         <FormTextInput
                             label='Name'
                             name='name'
                             type='text'
-                            placeholder={props.customerName}
                         />
                         <FormTextInput
                             label='Email'
                             name='email'
                             type='text'
-                            placeholder={props.customerEmail}
                         />
                         <FormTextInput
                             label='Age'
                             name='age'
                             type='number'
-                            placeholder={props.customerAge}
                         />
                         <FormSelectInput label="Gender" name="gender">
                             {selectGender(props.customerGender)}
                         </FormSelectInput>
 
                         {/*Button only works if form IsValid and is NOT submitting*/}
-                        <Button isDisabled={isSubmitting} type="submit"
+                        {/*Dirty is a value that lets us know if any values where changed*/}
+                        <Button isDisabled={!dirty || isSubmitting} type="submit"
                                 colorScheme={"green"}>Save</Button>
                     </Stack>
                 </Form>

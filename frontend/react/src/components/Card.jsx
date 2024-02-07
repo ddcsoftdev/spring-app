@@ -21,7 +21,7 @@ import {
 import {deleteCustomer} from "../services/client.js";
 import {errorNotification, successNotification} from "../services/notification.js";
 import {useRef} from "react";
-import ButtonForm from "./ButtonForm.jsx";
+import ModifyCustomerButtonForm from "./ModifyCustomerButtonForm.jsx";
 
 /**
  * Method that creates a card with all data from a customer
@@ -139,7 +139,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                         <Text color={'gray'}>{gender.toString().toLowerCase()}</Text>
                         <Stack display={'inline'} mt={3}>
                             {/*Modify: Clicking this button triggers a Drawer with form*/}
-                            <ButtonForm
+                            <ModifyCustomerButtonForm
                                 buttonName={'Modify'}
                                 formTitle={`Modify Customer ${id}: ${name}`}
                                 customerName = {name}
@@ -154,7 +154,7 @@ export default function CardWithImage({fetchCustomers, id, name, email, age, gen
                                     transform: 'translateY(-2px)',
                                     boxShadow: 'lg'
                                 }}
-                            ></ButtonForm>
+                            ></ModifyCustomerButtonForm>
                             {/*Delete: Clicking this button triggers onOpen AlertDialog event*/}
                             <Button
                                 colorScheme={"red"}

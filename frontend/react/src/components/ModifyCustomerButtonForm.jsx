@@ -11,7 +11,7 @@ import {
 import {useRef} from "react";
 import ModifyCustomerForm from "./ModifyCustomerForm.jsx";
 
-function ButtonForm(props) {
+function ModifyCustomerButtonForm(props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -57,4 +57,4 @@ function ButtonForm(props) {
     )
 }
 
-export default ButtonForm
+export default ModifyCustomerButtonForm

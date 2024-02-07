@@ -83,10 +83,10 @@ jobs:
         #We print new Dockerrun to verify it worked (just visual logging)
         run: |
           echo "Dockerrun (before):"
-          cat Dockerrun.aws.json
-          sed -i -E 's_(ddcsoftware/ddcsoftware-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
+          cat ../Dockerrun.aws.json
+          sed -i -E 's_(ddcsoftware/ddcsoftware-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
           echo "Dockerrun (after):"
-          cat Dockerrun.aws.json
+          cat ../Dockerrun.aws.json
 
       #7. Deploy Dockerrun to AWS Beanstalk using secrets in Github Actions
       #Reminder: How to setup Secrets in Step 3 and in Obsidian Notes
@@ -103,7 +103,7 @@ jobs:
           region: ${{secrets.EB_REGION}}
           #beanstalk-deploy@v21 needs full path from root
           #Currently does not work with working_directory property
-          deployment_package: backend/Dockerrun.aws.json
+          deployment_package: Dockerrun.aws.json
 
       #8. Commit and push the Dockerrun into Github
       - name: Commit and push Dockerrun.aws.json
@@ -112,7 +112,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
+          git add ../Dockerrun.aws.json
           git commit -m "Update Dockerrun.aws.json with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
           git push
 

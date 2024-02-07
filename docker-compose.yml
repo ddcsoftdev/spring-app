@@ -19,7 +19,7 @@ services:
   #this is for self-containing app in local testing
   ddcsoftware-api:
     container_name: ddcsoftware-api
-    image: ddcsoftware/ddcsoftware-api
+    image: ddcsoftware/ddcsoftware-api:latest
     #this overrides the URL so we connect to the db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ddc
@@ -33,6 +33,32 @@ services:
       - db
     restart: unless-stopped
 
+#creating service for frontend done with react
+  ddcsoftware-react:
+    container_name: ddcsoftware-react
+    image: ddcsoftware/ddcsoftware-react:latest
+    build:
+      #with build/context we specify where the Dockerfile is, so it knows how to build
+      context: frontend/react
+      #we pass the localhost port to the variable within the React Dockerfile
+      args:
+        api_base_url: http://localhost:8080
+    #picking a random local port 3000, and 5173 as the one we chose in react
+    ports:
+      - "3000:5173"
+    depends_on:
+      - ddcsoftware-api
+    restart: unless-stopped
+
+#Network to connect all services
+networks:
+  postgres:
+    driver: bridge
+
+#could remove pgadmin from here. check pgadmin for info
+volumes:
+  postgres:
+  #  pgadmin:
   #pgadmin: unnecessary for webapp now, but keeping for reference
 
 #  pgadmin:
@@ -52,11 +78,4 @@ services:
 #    depends_on:
 #      - db
 
-networks:
-  postgres:
-    driver: bridge
 
-#could remove pgadmin from here. check pgadmin for info
-volumes:
-  postgres:
-#  pgadmin:
