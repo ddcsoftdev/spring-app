@@ -10,8 +10,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest, node20
-
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontend/react
