@@ -42,11 +42,11 @@ jobs:
       #Build Docker Image
       - name: Docker Build
         run: |
-              chmod +x ../.ci/build-publish.sh
+              chmod +x ../../.github/.ci/build-publish.sh
               USERNAME=ddcsoftware \
               REPO=ddcsoftware-react \
               TAG=${{ steps.build-number.outputs.BUILD_NUMBER }} \
-              ../.ci/build-publish.sh . \
+              ../../.github/.ci/build-publish.sh . \
               --build-arg api_base_url=http://localhost:8080/
 
       #Connect to AWS
