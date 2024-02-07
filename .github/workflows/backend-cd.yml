@@ -90,20 +90,22 @@ jobs:
 
       #7. Deploy Dockerrun to AWS Beanstalk using secrets in Github Actions
       #Reminder: How to setup Secrets in Step 3 and in Obsidian Notes
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: ${{secrets.AWS_USERNAME}}
-          aws_secret_key: ${{secrets.AWS_PASSWORD}}
-          environment_name: ${{secrets.EB_ENVIRONMENT_NAME}}
-          application_name: ${{secrets.EB_APPLICATION_NAME}}
-          version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
-          #This is useful to set it to the commit that triggered the build
-          version_description: ${{github.SHA}}
-          region: ${{secrets.EB_REGION}}
+      #Note: commented this off as Elastic Beanstalk is turned off
+
+#      - name: Deploy to Elastic Beanstalk
+#        uses: einaregilsson/beanstalk-deploy@v21
+#        with:
+#          aws_access_key: ${{secrets.AWS_USERNAME}}
+#          aws_secret_key: ${{secrets.AWS_PASSWORD}}
+#          environment_name: ${{secrets.EB_ENVIRONMENT_NAME}}
+#          application_name: ${{secrets.EB_APPLICATION_NAME}}
+#          version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
+#          #This is useful to set it to the commit that triggered the build
+#          version_description: ${{github.SHA}}
+#          region: ${{secrets.EB_REGION}}
           #beanstalk-deploy@v21 needs full path from root
           #Currently does not work with working_directory property
-          deployment_package: Dockerrun.aws.json
+#          deployment_package: Dockerrun.aws.json
 
       #8. Commit and push the Dockerrun into Github
       - name: Commit and push Dockerrun.aws.json

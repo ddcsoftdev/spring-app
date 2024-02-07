@@ -1,0 +1,80 @@
+name: CD - Deploy React Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/react/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./frontend/react
+
+    steps:
+      #Slack message
+      - uses: actions/checkout@v3
+      - name: Slack commit message and sha
+        run: >
+            curl -X POST -H 'Content-type: application/json'
+            --data '{"text":":github: https://github.com/ddcsoftdev/spring-app/commit/${{github.sha}} - ${{github.event.head_commit.message}}"}'
+            ${{secrets.SLACK_URL}}
+
+      #Clone repo
+      - uses: actions/checkout@v3
+
+      #Loging Docker
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      #Creating a Build Number
+      - name: Create build number
+        id: build-number
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+
+      #Build Docker Image
+      - name: Docker Build
+        run: |
+              chmod +x ../.ci/build-publish.sh
+              USERNAME=ddcsoftware \
+              REPO=ddcsoftware-react \
+              TAG=${{ steps.build-number.outputs.BUILD_NUMBER }} \
+              ../.ci/build-publish.sh . \
+              --build-arg api_base_url=http://localhost:8080/
+
+      #Connect to AWS
+      #Note: disabled as Elastic Beanstalk is turned off
+
+#      - name: Desploy to Elastic Beanstalk
+#        uses: einaregilsson/beanstalk-deploy@v21
+#        with:
+#          aws_access_key: ${{secrets.AWS_USERNAME}}
+#          aws_secret_key: ${{secrets.AWS_PASSWORD}}
+#          environment_name: ${{secrets.EB_ENVIRONMENT_NAME}}
+#          application_name: ${{secrets.EB_APPLICATION_NAME}}
+#          version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
+#          version_description: ${{github.SHA}}
+#          region: ${{secrets.EB_REGION}}
+#          deployment_package: Dockerrun.aws.json
+
+      - name: Commit and push Dockerrun.aws.json
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ../../Dockerrun.aws.json
+          git commit -m "Update Dockerrun.aws.json with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
+          git push
+
+      - name: Notification to Slack
+        if: always()
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":":wave: Status: ${{job.status}} for deploying and pushing Dockerrun: v${{ steps.build-number.outputs.BUILD_NUMBER }}"}'
+          ${{secrets.SLACK_URL}}
