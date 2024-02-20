@@ -1,8 +1,6 @@
 package com.ddcsoftware;
 
-import com.ddcsoftware.customer.Customer;
-import com.ddcsoftware.customer.CustomerRepository;
-import com.ddcsoftware.customer.Gender;
+import com.ddcsoftware.customer.*;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +19,6 @@ public class Main {
     //Populates database on application start
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository){
-
         return args -> {
             Faker faker = new Faker();
             Customer customerOne = new Customer(

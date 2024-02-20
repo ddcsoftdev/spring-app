@@ -1,5 +1,8 @@
 package com.ddcsoftware.customer;
 
+import com.ddcsoftware.jwt.JWTUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +18,11 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final JWTUtil jwtUtil; //used for token registration
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, JWTUtil jwtUtil) {
         this.customerService = customerService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("api/v1/customers")
@@ -32,8 +37,16 @@ public class CustomerController {
 
     //@RequestBody requests de body of the HTTP POST message
     @PostMapping("api/v1/customers")
-    public void registerCustomer(@RequestBody CustomerRegistrationRequests request) {
+    //Response Entity allows to attach Key to the header
+    public ResponseEntity<?> registerCustomer(@RequestBody CustomerRegistrationRequests request) {
         customerService.addCustomer(request);
+        //gives a unique identifier with Role of a USER or for example could be ADMIN
+        //TODO DD: Change request.email to the username of user, and with his role within app
+        String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
+        //Adding token to header
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .build();
     }
 
     @DeleteMapping("api/v1/customers/{customerId}")
