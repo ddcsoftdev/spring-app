@@ -1,7 +1,6 @@
 
 # Spring App
 
-![Logo](logo.png)
 
 ## Table of Contents
 
@@ -111,10 +110,8 @@ The project uses GitHub Actions for Continuous Integration and Continuous Deploy
 The application is deployed on AWS Free Tier using Elastic Beanstalk. It uses an Elastic Beanstalk container to spin up the needed environment, which includes the application container and a PostgreSQL container.
 
 ## Screenshots
-
-![Screenshot 1](https://user-images.githubusercontent.com/ddcsoftdev/spring-app/screenshots/screenshot-2024-01-30-13-29-17.png)
-![Screenshot 2](https://user-images.githubusercontent.com/ddcsoftdev/spring-app/screenshots/screenshot-2024-01-30-13-30-33.png)
-
+<img width="1671" alt="Screenshot 2024-01-30 at 13 29 17" src="https://github.com/ddcsoftdev/spring-app/assets/148901730/60ddd261-c4fb-4614-ade9-3ce722ec9f65">
+<img width="1457" alt="Screenshot 2024-01-30 at 13 30 33" src="https://github.com/ddcsoftdev/spring-app/assets/148901730/79afc95e-3fe8-45f1-aba0-78a6ba3157d1">
 ## Contributing
 
 We welcome contributions! To contribute, follow these steps:
