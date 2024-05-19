@@ -42,7 +42,7 @@ class CustomerServiceTest {
     void getCustomerById() {
         int id = 3;
         Customer customer = new Customer(
-                id, "James", "james@email.com", 34, Gender.MALE);
+                id, "James", "james@email.com", "password", 34, Gender.MALE);
 
         //We tell it to return our customer when selectCustomerById with id 3 is invoked during the Mock
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
@@ -69,12 +69,13 @@ class CustomerServiceTest {
     @Test
     void addCustomer() {
         String email = "james@email.com";
+        String password = "password";
         //first mock that we check for email
         when(customerDao.existsCustomerWithEmail(email)).thenReturn(false);
 
         //The request is required by original addCustomer
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                "James", email, 34, Gender.MALE);
+                "James", email, password , 34, Gender.MALE);
         underTest.addCustomer(request);
 
         //ArgumentCapture captures an argument from the method.
@@ -98,12 +99,13 @@ class CustomerServiceTest {
     @Test
     void WillDenyRequestAddCustomer() {
         String email = "james@email.com";
+        String password = "password";
         //first mock that we check for email and it already exists
         when(customerDao.existsCustomerWithEmail(email)).thenReturn(true);
 
         //The request is required by original addCustomer
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                "James", email, 34, Gender.MALE);
+                "James", email, password, 34, Gender.MALE);
 
         //Check right Exception thrown
         assertThatThrownBy(() -> underTest.addCustomer(request))
@@ -149,7 +151,7 @@ class CustomerServiceTest {
     void updateAllCustomerProperties() {
         int id = 3;
         Customer customer = new Customer(
-                id, "James", "james@email.com", 34, Gender.MALE);
+                id, "James", "james@email.com", "password", 34, Gender.MALE);
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         //Create new customer Request
@@ -178,7 +180,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -206,7 +208,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -238,7 +240,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -266,7 +268,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -294,7 +296,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
@@ -319,7 +321,7 @@ class CustomerServiceTest {
         // Given
         int id = 10;
         Customer customer = new Customer(
-                id, "James", "James@gmail.com", 19, Gender.MALE
+                id, "James", "James@gmail.com", "password", 19, Gender.MALE
         );
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 

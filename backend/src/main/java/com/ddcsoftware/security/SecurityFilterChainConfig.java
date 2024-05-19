@@ -16,15 +16,16 @@ public class SecurityFilterChainConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //disable cross side request forgery as we use no HTML forms
         http.csrf(AbstractHttpConfigurer::disable);
-        //set which request are we allowing
+        //set which request we are allowing
         http.authorizeHttpRequests(req -> {
-                    //allowing only POST request from this url
-                    //You can allow all if you take off first argument
-                    req.requestMatchers(HttpMethod.POST,"/api/v1/customers")
-                            .permitAll()
-                            .anyRequest()
-                            .authenticated();//all requests must be authenticated
-                });
+            // Allowing POST and GET requests to the specified URL
+            req.requestMatchers(HttpMethod.POST, "/api/v1/customers")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/customers")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated(); // All other requests must be authenticated
+        });
 
         //return built http
         return http.build();

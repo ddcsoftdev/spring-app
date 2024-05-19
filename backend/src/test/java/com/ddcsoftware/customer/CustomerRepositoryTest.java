@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 //DataJpaTest just loads the Beans needed to run JPA
 @DataJpaTest
@@ -81,7 +80,7 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
                 FAKER.name().fullName(),
                 //Make this always unique to avoid errors
                 FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID(),
-                FAKER.random().nextInt(18, 99),
+                "password", FAKER.random().nextInt(18, 99),
                 FAKER.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
     }
 
@@ -89,7 +88,7 @@ class CustomerRepositoryTest extends AbstractTestcontainers {
         return new Customer(
                 FAKER.name().fullName(),
                 email,
-                FAKER.random().nextInt(18, 99),
+                "password", FAKER.random().nextInt(18, 99),
                 FAKER.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
     }
 }

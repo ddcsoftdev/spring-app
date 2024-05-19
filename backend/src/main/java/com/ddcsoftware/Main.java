@@ -24,7 +24,7 @@ public class Main {
             Customer customerOne = new Customer(
                     faker.name().firstName(),
                     faker.name().lastName() + "@example.com",
-                    faker.random().nextInt(18, 99),
+                    "password", faker.random().nextInt(18, 99),
                     faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
             customerRepository.save(customerOne);
         };

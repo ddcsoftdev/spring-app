@@ -25,7 +25,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
                 FAKER.name().fullName(),
                 //Make this always unique to avoid errors
                 FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID(),
-                FAKER.random().nextInt(18, 99),
+                "password", FAKER.random().nextInt(18, 99),
                 FAKER.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
     }
 
@@ -33,7 +33,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         return new Customer(
                 FAKER.name().fullName(),
                 email,
-                FAKER.random().nextInt(18, 99),
+                "password", FAKER.random().nextInt(18, 99),
                 FAKER.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE);
     }
 
@@ -169,12 +169,14 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers {
         //Customer update
         String update_name = FAKER.name().fullName();
         String update_email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        String update_password = "password";
         Integer update_age = FAKER.random().nextInt(18, 99);
         Gender update_gender = FAKER.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         customer = underTest.selectCustomerById(id).orElseThrow();
         customer.setName(update_name);
         customer.setEmail(update_email);
+        customer.setPassword(update_password);
         customer.setAge(update_age);
         customer.setGender(update_gender);
 

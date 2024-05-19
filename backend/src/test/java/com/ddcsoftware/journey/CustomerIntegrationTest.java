@@ -35,11 +35,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -65,7 +66,7 @@ public class CustomerIntegrationTest {
 
         //make sure customer is present and ignore field ID as we don't know it
         Customer expectedCustomer = new Customer(
-                name, email, age, gender);
+                name, email, password, age, gender);
         assertThat(allCustomers)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .contains(expectedCustomer);
@@ -97,11 +98,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -156,11 +158,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -233,11 +236,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -307,11 +311,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -381,11 +386,12 @@ public class CustomerIntegrationTest {
         Faker faker = new Faker();
         String name = faker.name().firstName();
         String email = "%s%s@example.com".formatted(name, UUID.randomUUID());
+        String password = "password";
         Integer age = faker.random().nextInt(18, 99);
         Gender gender = faker.random().nextInt(0,1) == 1 ? Gender.MALE : Gender.FEMALE;
 
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
-                name, email, age, gender);
+                name, email, password, age, gender);
 
         //send post request
         webTestClient.post()
@@ -444,7 +450,7 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         Customer expected = new Customer(
-                id, updateName, updateEmail, age, gender);
+                id, updateName, updateEmail, password, age, gender);
         assertThat(updatedCustomer).isEqualTo(expected);
     }
 }

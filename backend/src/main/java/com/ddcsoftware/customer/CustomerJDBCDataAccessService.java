@@ -63,14 +63,15 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer (name, email, age, gender)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO customer (name, email, password, age, gender)
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         //returns number of rows affected
         int rowsAffected = jdbcTemplate.update(sql,
                 customer.getName(),
                 customer.getEmail(),
+                customer.getPassword(),
                 customer.getAge(),
                 customer.getGender().name());
         System.out.printf("Insert Customer, rowsAffected = %d\n", rowsAffected);
@@ -90,15 +91,28 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     public void updateCustomer(Customer update) {
         var sql = """
                 UPDATE customer
-                SET name = ? , email = ? , age = ?, gender = ?
+                SET name = ? , email = ? , password = ?, age = ?, gender = ?
                 WHERE id = ?
                 """;
         int rowsAffected = jdbcTemplate.update(sql,
                 update.getName(),
                 update.getEmail(),
+                update.getPassword(),
                 update.getAge(),
                 update.getGender().name(),
                 update.getId());
         System.out.printf("Update Customer, rowsAffected = %d\n", rowsAffected);
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        var sql = """
+                SELECT * FROM customer
+                WHERE email = ?
+                """;
+        //return a list with stream and then findFirst.
+        //this is the fast way and oneliner method to check if empty,
+        // and get without throwing exception with get(0)
+        return jdbcTemplate.query(sql, customerRowMapper, email).stream().findFirst();
     }
 }

@@ -1,15 +1,11 @@
 package com.ddcsoftware.customer;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +15,7 @@ class CustomerRowMapperTest {
     void mapRow() throws SQLException {
         CustomerRowMapper customerRowMapper = new CustomerRowMapper();
         Customer customer = new Customer(
-                2, "James", "James@example.com", 31, Gender.MALE);
+                2, "James", "James@example.com", "password", 31, Gender.MALE);
 
         //forward declare a mock within method
         ResultSet resultSet = mock(ResultSet.class);

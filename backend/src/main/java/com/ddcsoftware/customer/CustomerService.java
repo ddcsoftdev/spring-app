@@ -39,7 +39,7 @@ public class CustomerService {
         Customer customer = new Customer(
                 request.name(),
                 request.email(),
-                request.age(),
+                "password", request.age(),
                 request.gender());
 
         customerDao.insertCustomer(customer);

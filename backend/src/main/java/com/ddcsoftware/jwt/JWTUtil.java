@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class JWTUtil {
 
-    //Creating a secret key to pass it as bytes. For production use a config file
+    //Creating a secret key to pass it as bytes. For production use a config file or secret
     private static final String SECRET_KEY = "randomstring_123456_example_randomstring_";
 
     /**
@@ -37,15 +37,14 @@ public class JWTUtil {
                 .issuer("http://localhost:8080/api/v1/customers")//Website url that is issuing the token
                 .issuedAt(Date.from(Instant.now()))//Sets current date
                 .expiration(Date.from(Instant.now().plus(15, ChronoUnit.DAYS)))//Adding expiration date
-                .signWith(getSigningKey())
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();//this gives us the key
         return token;
     }
 
     /**
      *  Creating token with empty claims
-     *
-     *This just uses subject
+     *  This just uses subject
      * @param subject the username
      * @return token
      */
@@ -58,7 +57,7 @@ public class JWTUtil {
      *  Creating token that contains subject and string array
 
      * @param subject username
-     * @param scopes String array to pass to claims
+     * @param scopes String array to pass claims
      * @return
      */
     public String issueToken(String subject, String ...scopes){
