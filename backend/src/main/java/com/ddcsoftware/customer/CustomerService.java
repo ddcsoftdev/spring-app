@@ -4,6 +4,7 @@ import com.ddcsoftware.exception.DuplicateResourceException;
 import com.ddcsoftware.exception.RequestValidationException;
 import com.ddcsoftware.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,12 @@ public class CustomerService {
 
     //this allows get data from DB and send it to Controller
     private final CustomerDao customerDao;
+    //password encoder
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao, PasswordEncoder passwordEncoder) {
         this.customerDao = customerDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Customer> getAllCustomers() {
@@ -39,7 +43,8 @@ public class CustomerService {
         Customer customer = new Customer(
                 request.name(),
                 request.email(),
-                "password", request.age(),
+                passwordEncoder.encode(request.password()),//encode password
+                request.age(),
                 request.gender());
 
         customerDao.insertCustomer(customer);

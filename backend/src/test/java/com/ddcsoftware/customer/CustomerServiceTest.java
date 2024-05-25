@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -24,11 +25,13 @@ class CustomerServiceTest {
 
     @Mock
     private CustomerDao customerDao;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     private CustomerService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDao);
+        underTest = new CustomerService(customerDao, passwordEncoder);
     }
 
     @Test
@@ -70,12 +73,19 @@ class CustomerServiceTest {
     void addCustomer() {
         String email = "james@email.com";
         String password = "password";
+        //random hash
+        String passwordHash = "5sgd%";
+
         //first mock that we check for email
         when(customerDao.existsCustomerWithEmail(email)).thenReturn(false);
 
         //The request is required by original addCustomer
         CustomerRegistrationRequests request = new CustomerRegistrationRequests(
                 "James", email, password , 34, Gender.MALE);
+
+        //set this hash when we pass specific password
+        when(passwordEncoder.encode(request.password())).thenReturn(passwordHash);
+
         underTest.addCustomer(request);
 
         //ArgumentCapture captures an argument from the method.
@@ -92,6 +102,7 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getId()).isNull();
         assertThat(capturedCustomer.getName()).isEqualTo(request.name());
         assertThat(capturedCustomer.getEmail()).isEqualTo(request.email());
+        assertThat(capturedCustomer.getPassword()).isEqualTo(passwordHash);
         assertThat(capturedCustomer.getAge()).isEqualTo(request.age());
         assertThat(capturedCustomer.getGender()).isEqualTo(request.gender());
     }
