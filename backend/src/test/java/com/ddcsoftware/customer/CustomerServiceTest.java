@@ -28,10 +28,12 @@ class CustomerServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     private CustomerService underTest;
+    //no need to mock as is straight forward implementation
+    private final CustomerDTOMapper customerDTOMapper = new CustomerDTOMapper();
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDao, passwordEncoder);
+        underTest = new CustomerService(customerDao, customerDTOMapper, passwordEncoder);
     }
 
     @Test
@@ -51,8 +53,10 @@ class CustomerServiceTest {
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         //Expect to get the customer above so we assert
-        Customer actual = underTest.getCustomerById(id);
-        assertThat(actual).isEqualTo(customer);
+        CustomerDTO expected = customerDTOMapper.apply(customer);
+        CustomerDTO actual = underTest.getCustomerById(id);
+
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test

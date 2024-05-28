@@ -4,32 +4,44 @@ import com.ddcsoftware.exception.DuplicateResourceException;
 import com.ddcsoftware.exception.RequestValidationException;
 import com.ddcsoftware.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //Service acts as the Business layer, communicating the Controller and the DAO
 //Marked as Service (aka Component) to set as Bean.
 @Service
 public class CustomerService {
 
+    /*
+    injections
+     */
     //this allows get data from DB and send it to Controller
     private final CustomerDao customerDao;
+    private final CustomerDTOMapper customerDTOMapper;
     //password encoder
     private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao, PasswordEncoder passwordEncoder) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao, CustomerDTOMapper customerDTOMapper, PasswordEncoder passwordEncoder) {
         this.customerDao = customerDao;
+        this.customerDTOMapper = customerDTOMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerDao.selectAllCustomers();
+    public List<CustomerDTO> getAllCustomers() {
+        //Create CustomerDTO with data in Customer Object
+        return customerDao.selectAllCustomers()
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer getCustomerById(Integer customerId) {
+    public CustomerDTO getCustomerById(Integer customerId) {
         return customerDao.selectCustomerById(customerId)
+                .map(customerDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Customer with id[%d] not found".formatted(customerId)));
     }
@@ -60,8 +72,10 @@ public class CustomerService {
 
     public void updateCustomerById(Integer customerId, CustomerUpdateRequest updateRequest) {
 
-        Customer customer = getCustomerById(customerId);
         boolean changes = false;
+        Customer customer = customerDao.selectCustomerById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Customer with id[%d] not found".formatted(customerId)));
 
         if (updateRequest.name() != null && !updateRequest.name().equals(customer.getName())) {
             customer.setName(updateRequest.name());

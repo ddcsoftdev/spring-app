@@ -1,11 +1,13 @@
 package com.ddcsoftware.customer;
 
 import com.ddcsoftware.AbstractTestcontainers;
+import com.ddcsoftware.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
 
@@ -16,6 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 //AutoConfigureTestDatabase: This disables te embedded database (the one in Docker in this case)
 //We want to connect one that we create for testing
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
+//Import this for test since it needs PasswordEncoder
+@Import({TestConfig.class})
 class CustomerRepositoryTest extends AbstractTestcontainers {
 
     //@Autowired allows to inject beans without adding them to a constructor of this class
