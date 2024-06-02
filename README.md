@@ -77,7 +77,7 @@ This is a fullstack application that enables you to add, remove, or modify custo
 
 ## Usage
 
-To use the application, navigate to `http://localhost:3000` in your web browser. You can add, remove, and modify customer records using the interface.
+To use the application, navigate to `http://localhost:5173` in your web browser. You can add, remove, and modify customer records using the interface.
 
 ## Backend
 
