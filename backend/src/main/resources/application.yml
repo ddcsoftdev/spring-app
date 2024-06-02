@@ -26,3 +26,5 @@ cors:
   #allowed-origins: "https://localhost:5737, https://www.ddcsoftwareapp.com"
   allowed-methods: "*"
   #allowed-methods: "GET, POST, PUT, DELETE"
+  allowed-headers: "*"
+  exposed-headers: "*"

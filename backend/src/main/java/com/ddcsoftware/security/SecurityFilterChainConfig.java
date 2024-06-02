@@ -5,61 +5,87 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Configuration class for setting up the Spring Security filter chain.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityFilterChainConfig {
 
+    // Dependency injections
     private final AuthenticationProvider authenticationProvider;
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    // Constructor to inject the authentication provider and custom filter
+    /**
+     * Constructor for injecting dependencies.
+     *
+     * @param authenticationProvider the custom authentication provider
+     * @param jwtAuthenticationFilter the JWT authentication filter
+     * @param authenticationEntryPoint the custom authentication entry point
+     */
     public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider,
-                                     JWTAuthenticationFilter jwtAuthenticationFilter) {
+                                     JWTAuthenticationFilter jwtAuthenticationFilter,
+                                     AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
+    /**
+     * Bean definition for configuring the security filter chain.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disable cross-site request forgery as we use no HTML forms
+        // Disable Cross-Site Request Forgery (CSRF) protection
+        // This is safe to disable as we are not using server-side rendered forms
         http.csrf(AbstractHttpConfigurer::disable);
 
-        // Set which requests we are allowing
+        // Enable Cross-Origin Resource Sharing (CORS) with default settings
+        http.cors(Customizer.withDefaults());
+
+        // Configure authorization rules
         http.authorizeHttpRequests(req -> {
-            // Allowing POST and GET requests to the specified URL
-            req.requestMatchers(
-                    // Allowing POST requests to the specified URL without authentication
-                    HttpMethod.POST, "/api/v1/customers")
+            // Allow unauthenticated POST requests to the specified endpoint
+            req.requestMatchers(HttpMethod.POST, "/api/v1/customers")
                     .permitAll()
-                    // Allowing GET requests to the specified URL without authentication
-                    .requestMatchers(HttpMethod.GET, "/api/v1/customers")
-                    .permitAll()
+                    // Any other request must be authenticated
                     .anyRequest()
-                    .authenticated(); // All other requests must be authenticated
+                    .authenticated();
         });
 
-        // Session management configuration
+        // Set session management to stateless as we are using JWT for session management
         http.sessionManagement(session -> session
-                //JWT is managed with the token, so we don't need Session Policy
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
         // Add the custom authentication provider
-        // This is where you can configure your custom authentication logic
+        // This allows the use of custom authentication logic
         http.authenticationProvider(authenticationProvider);
 
-        // Add the custom filter before the UsernamePasswordAuthenticationFilter
-        // This custom filter can handle JWT validation or other authentication mechanisms
+        // Add the JWT authentication filter before the default UsernamePasswordAuthenticationFilter
+        // This allows us to handle JWT validation
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Return configured SecurityFilterChain
+        // Configure exception handling to use the custom authentication entry point
+        // This ensures proper response codes and messages for authentication errors
+        http.exceptionHandling(exceptionHandling ->
+                exceptionHandling.authenticationEntryPoint(authenticationEntryPoint));
+
+        // Return the configured SecurityFilterChain
         return http.build();
     }
 }
