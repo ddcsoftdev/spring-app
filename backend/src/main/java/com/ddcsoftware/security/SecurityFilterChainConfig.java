@@ -62,6 +62,8 @@ public class SecurityFilterChainConfig {
             // Allow unauthenticated POST requests to the specified endpoint
             req.requestMatchers(HttpMethod.POST, "/api/v1/customers")
                     .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login")
+                    .permitAll()
                     // Any other request must be authenticated
                     .anyRequest()
                     .authenticated();
