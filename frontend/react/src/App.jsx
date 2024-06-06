@@ -7,8 +7,8 @@ import {
 } from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {getCustomers} from "./services/client.js";
-import CardWithImage from "./components/Card.jsx";
-import CreateCustomerDrawerForm from "./components/CreateCustomerDrawerForm.jsx"
+import CardWithImage from "./components/customer/Card.jsx";
+import CreateCustomerDrawerForm from "./components/customer/CreateCustomerDrawerForm.jsx"
 import {errorNotification} from "./services/notification.js";
 
 const App = () => {

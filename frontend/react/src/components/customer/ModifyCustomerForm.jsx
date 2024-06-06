@@ -1,8 +1,8 @@
 import {Form, Formik, useField} from "formik";
 import * as Yup from 'yup';
 import {Alert, AlertIcon, Avatar, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
-import {modifyCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {modifyCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 
 /**
  * Create a Box where we can write text and be sent to our form

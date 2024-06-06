@@ -12,8 +12,8 @@ import {
     Select,
     Stack
 } from "@chakra-ui/react";
-import {addCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {addCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 
 /**
  * Create a Box where we can write text and be sent to our form

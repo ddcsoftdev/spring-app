@@ -18,8 +18,8 @@ import {
     AlertDialogHeader,
     AlertDialogBody, AlertDialogFooter,
 } from '@chakra-ui/react'
-import {deleteCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {deleteCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 import {useRef} from "react";
 import ModifyCustomerButtonForm from "./ModifyCustomerButtonForm.jsx";
 
