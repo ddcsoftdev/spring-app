@@ -20,6 +20,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 import {errorNotification} from "../../services/notification.js";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import RegisterDrawerForm from "../register/RegisterDrawerForm.jsx";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -125,6 +126,7 @@ export default function Login() {
                                 <Heading fontSize={'4xl'}>Sign in to your account</Heading>
                             </Stack>
                             <LoginForm />
+                            <RegisterDrawerForm/>
                         </Stack>
                     </Flex>
                 </GridItem>
