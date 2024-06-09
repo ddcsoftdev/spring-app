@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "ddcsoftware-react",
-      "image": "ddcsoftware/ddcsoftware-react:09.06.2024.14.47.25",
+      "image": "ddcsoftware/ddcsoftware-react:09.06.2024.18.10.38",
       "essential": true,
       "memory": 256,
       "portMappings": [
