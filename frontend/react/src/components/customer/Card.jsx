@@ -1,4 +1,3 @@
-'use client'
 import {
     Heading,
     Avatar,
@@ -22,6 +21,7 @@ import {deleteCustomer} from "../../services/client.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import {useRef} from "react";
 import ModifyCustomerButtonForm from "./ModifyCustomerButtonForm.jsx";
+import {useAuth} from "../context/AuthContext.jsx";
 
 /**
  * Method that creates a card with all data from a customer
@@ -35,21 +35,20 @@ import ModifyCustomerButtonForm from "./ModifyCustomerButtonForm.jsx";
  * @returns {JSX.Element}
  * @constructor
  */
-export default function CardWithImage({fetchCustomers, id, name, email, age, gender}) {
-
-    /**
-     * Method that converts db gender entry into readable gender tag
-     *
-     * @param gender
-     * @returns {string}
-     */
-    const convertGenderEntry = (gender) => {
-        if (gender === "MALE") {
-            return "men"
-        } else if (gender === "FEMALE") {
-            return "women"
-        }
+/**
+ * Method that converts db gender entry into readable gender tag
+ *
+ * @param gender
+ * @returns {string}
+ */
+export const convertGenderEntry = (gender) => {
+    if (!gender || gender === "MALE") {
+        return "men"
+    } else if (gender === "FEMALE") {
+        return "women"
     }
+}
+export default function CardWithImage({fetchCustomers, id, name, email, age, gender}) {
 
     /**
      * Alert Dialog functions

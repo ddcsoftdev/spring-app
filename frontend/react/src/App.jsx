@@ -10,6 +10,8 @@ import {getCustomers} from "./services/client.js";
 import CardWithImage from "./components/customer/Card.jsx";
 import CreateCustomerDrawerForm from "./components/customer/CreateCustomerDrawerForm.jsx"
 import {errorNotification} from "./services/notification.js";
+import {useAuth} from "./components/context/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const App = () => {
     //userState returns two values: the current state and a way to set a new one

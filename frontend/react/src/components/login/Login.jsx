@@ -18,6 +18,8 @@ import logo from '../../assets/logo.png'
 import register from '../../assets/register.png'
 import {useAuth} from "../context/AuthContext.jsx";
 import {errorNotification} from "../../services/notification.js";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -40,6 +42,7 @@ const MyTextInput = ({label, ...props}) => {
 
 const LoginForm = () => {
     const {login} = useAuth();
+    const navigate = useNavigate();
 
     return (
         <Formik
@@ -59,7 +62,7 @@ const LoginForm = () => {
             onSubmit={(values, {setSubmitting}) => {
                 setSubmitting(true);
                 login(values).then(res => {
-                    //TODO: navigate to dashboard
+                    navigate("/dashboard");
                 }).catch(err => {
                     errorNotification(
                         err.code,
@@ -96,6 +99,14 @@ const LoginForm = () => {
     );
 }
 export default function Login() {
+    const {user} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user){
+            navigate("/dashboard")
+        }
+    }, [])
     return (
         <Flex
             minH={'100vh'}

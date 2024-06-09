@@ -86,6 +86,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                 initialValues={{
                     name: '',
                     email: '',
+                    password: '',
                     age: '',
                     gender: '',
                 }}
@@ -96,6 +97,10 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                         .required('Required'),
                     email: Yup.string()
                         .email('Invalid email address')
+                        .required('Required'),
+                    password: Yup.string()
+                        .max(15, 'Must be 15 characters or less')
+                        .min(4, 'password must be at least 4 characters long')
                         .required('Required'),
                     age: Yup.number()
                         .min(18, 'Must be at least 18')
@@ -157,6 +162,13 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 name="email"
                                 type="text"
                                 placeholder="Jane@example.com"
+                            />
+
+                            <MyTextInput
+                                label="Password"
+                                name="password"
+                                type="password"
+                                placeholder="Type Password"
                             />
 
                             <MyTextInput
