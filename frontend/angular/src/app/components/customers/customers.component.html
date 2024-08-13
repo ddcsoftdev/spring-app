@@ -1,0 +1,22 @@
+<div class="flex align-items-stretch" style="height: 99vh;">
+  <div class="flex flex-column align-items-stretch border-right-1 col-2 border-orange-50">
+    <app-menu-bar/>
+  </div>
+  <div class="flex flex-column flex-grow-1">
+    <div style="background-color: black;">
+      <app-header-bar/>
+    </div>
+    <div class="main-container p-3">
+      <p-button label="Create Customer" icon="pi pi-plus"
+                (onClick)="createCustomerSidebarVisible = true"
+                class="p-button-secondary"/>
+      <p-sidebar [(visible)]="createCustomerSidebarVisible" position="right"
+                 styleClass="p-sidebar-md" transitionOptions="'300ms cubic-bezzier(0,0,0.2,1)'">
+        <app-customer-creation-form/>
+      </p-sidebar>
+      <div class="mt-5">
+        Customer Cards
+      </div>
+    </div>
+  </div>
+</div>

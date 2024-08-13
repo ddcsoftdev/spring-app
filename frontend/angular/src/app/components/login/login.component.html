@@ -1,0 +1,47 @@
+<div class="flex" style="height: 100vh;background-color: rgba(32,32,32,1);">
+  <div class="col-12 m-3 flex flex-column justify-content-center"
+       style="background-color: rgba(32,32,32,1); height: 100%">
+    <div class="m-auto p-3" style="background-color: rgb(255,183,54,0.1);  border-radius: 15px;">
+      <div class="text-center">
+        <p-avatar
+          image="../../../assets/images/logo-black.png"
+          styleClass="mr-2"
+          size="xlarge"
+          shape="circle"/>
+        <h3>Sign into your account</h3>
+          <p-messages *ngIf="messages.length >= 1" [(value)]="messages" styleClass="mb-2"/>
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            [(ngModel)]="authenticationRequest.username"
+            pInputText
+            placeholder="Username"
+            type="email"
+            class="w-full">
+        </div>
+        <div class="field">
+          <label for="password" style="width: 50%">Password</label>
+          <input
+            id="password"
+            [(ngModel)]="authenticationRequest.password"
+            pInputText
+            placeholder="Password"
+            type="password"
+            class="w-full">
+        </div>
+        <button pButton label="Login" class="w-full mt-4" (click)="login()"></button>
+        <button pButton label="Don't have an account? Signup now"
+                class="p-button-link w-full mt-4 text-left pl-0"></button>
+      </div>
+    </div>
+  </div>
+  <!--<div class="col-6 flex flex-column justify-content-center align-items-center right-container"
+       style="background-color: rgb(255,183,54,0.4)">
+     <h1>
+    <a href="https://ddcsoftdev.github.io/portfolio-web/" target="_blank">Demo Website</a>
+    </h1>
+    <img src="../../assets/images/login-image.png" alt="login image"
+          class="background">
+  </div>-->
+</div>

@@ -1,0 +1,16 @@
+<div class="flex flex-column align-items-end border-bottom-1 pt-3 pb-3">
+  <div class="flex flex-row align-items-center">
+    <p-button icon="pi pi-bell" [rounded]="true" [text]="true" severity="warning"
+              class="mr-3"/>
+    <p-avatar image="{{userImage}}" styleClass="mr-2" size="normal" shape="circle" />
+    <div class="mr-2">
+      <p class="text-base mb-0 mt-1 text-white-alpha-70">{{userEmail}}</p>
+      <p class="text-sm mb-1 mt-0 text-white-alpha-50">{{userRole}}</p>
+    </div>
+    <div class="mr-3">
+      <p-button icon="pi pi-bars" [rounded]="true" [text]="true" severity="secondary"
+        class="" id="mini-menu" (onClick)="menu.toggle($event)"/>
+      <p-menu #menu [model]="items" [popup]="true" />
+    </div>
+  </div>
+</div>

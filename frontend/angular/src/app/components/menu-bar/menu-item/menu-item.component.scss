@@ -1,0 +1,17 @@
+div{
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+
+  &:hover{
+    background-color: rgb(255,183,54,0.6);
+    color: white;
+    cursor: pointer;
+  }
+
+  i{
+    padding-right: 10px;
+  }
+}
+
+

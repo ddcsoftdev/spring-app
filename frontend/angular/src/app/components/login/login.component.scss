@@ -1,0 +1,14 @@
+.right-container{
+  background-image: linear-gradient(to right, rgb(255,183,54,0.4), rgba(32,32,32,1));
+  .background{
+    object-fit: scale-down;
+    height: auto;
+    max-width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+  }
+}
